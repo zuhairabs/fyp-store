@@ -97,7 +97,8 @@ const App = () => {
                 },
               }),
             }
-            fetch('https://shopout.herokuapp.com/store/verify', requestOptions)
+           
+            fetch('https://safeqstore.herokuapp.com/store/verify', requestOptions)
               .then(response => {
                 if (response.status === 200)
                   dispatch({ type: 'RESTORE_TOKEN', token: token, user: user });
@@ -145,7 +146,7 @@ const App = () => {
           };
 
           try {
-            fetch("https://shopout.herokuapp.com/store/login", requestOptions).then((response) => {
+            fetch("https://safeqstore.herokuapp.com/store/login", requestOptions).then((response) => {
               if (response.status === 200) {
                 response
                   .json()
@@ -191,7 +192,7 @@ const App = () => {
         };
 
         try {
-          fetch("https://shopout.herokuapp.com/store/signup", requestOptions)
+          fetch("https://safeqstore.herokuapp.com/store/signup", requestOptions)
             .then(response => {
               if (response.status === 200) {
                 response
@@ -307,7 +308,7 @@ const App = () => {
                 </>
               ) : (
                   <>
-                    {/* <Stack.Screen
+                    <Stack.Screen
                       name="Home" 
                       component={Home} 
                       options={{
@@ -325,7 +326,7 @@ const App = () => {
                       }}
                       
                     
-                     /> */}
+                     />
                     <Stack.Screen
                       name="Profile"
                       component={Profile}

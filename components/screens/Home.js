@@ -32,12 +32,17 @@ const Home = ({navigation}) =>{
         return date;
     }
     const date = new Date();
+    // console.log(date)
+    // console.log(date.getHours());
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [current, setCurrent] = useState(date.addDays(1));
     const [markedDate, setMarkedDate] = useState({});
-    const [selectedDate, setSelectedDate] = useState();
+    const [selectedDay, setSelectedDay] = useState(date.getDate());
+    const [selectedMonth, setSelectedMonth] = useState(date.getMonth() + 1);
 
+    // console.log({selectedDay})
+    // console.log({selectedMonth});
 
     useEffect(() => {
         const bootstrapper = async () => {
@@ -47,6 +52,7 @@ const Home = ({navigation}) =>{
         }
         bootstrapper()
             .then(({ user, token }) => {
+               
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -57,15 +63,21 @@ const Home = ({navigation}) =>{
                         cred: {
                             phone: user.phone,
                         },
+                        // date : selectedDate
+                        date : {
+                            day : selectedDay,
+                            month : selectedMonth
+                        }
                     }),
                 }
                 // console.log(requestOptions)
-                fetch("https://shopout.herokuapp.com/store/bookings", requestOptions)
+                fetch("https://safeqstore.herokuapp.com/store/bookings", requestOptions)
                     .then((res) => {
                         if (res.status === 200)
                             res.json()
                                 .then(data => { setBookings(data.bookings); setLoading(false);
-                                    console.log(data.bookings);
+                                    // console.log(data.bookings);
+                                   
                                 })
                         else {
                             Alert.alert("Something went wrong ", res.statusText)
@@ -73,9 +85,12 @@ const Home = ({navigation}) =>{
                     })
             })
     }, [])
-    const onDayPress = (day) => {
+    const onDayPress =  (day) => {
+        // console.log(day);
+        // console.log(day.day)
         const selected = day.dateString;
-        setCurrent(selected);
+        // console.log(selected);
+        // setCurrent(selected);
         const data = {}
         data[selected] = {
             selected: true,
@@ -84,7 +99,54 @@ const Home = ({navigation}) =>{
             color: "#fff"
         }
         setMarkedDate(data);
-        setSelectedDate(selected);
+        setSelectedDay(day.day);
+        // console.log({selectedDay})
+        setSelectedMonth(day.month);
+        console.log({selectedDay})
+        console.log({selectedMonth});
+        // console.log({selectedMonth});
+        // const bootstrapper = async () => {
+        //     let user = JSON.parse(await AsyncStorage.getItem("user"))
+        //     let token = await AsyncStorage.getItem("jwt")
+        //     return { user, token }
+        // }
+        // bootstrapper()
+        //     .then(({ user, token }) => {
+        //         const requestOptions = {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 authorization: "Bearer " + token,
+        //             },
+        //             body: JSON.stringify({
+        //                 cred: {
+        //                     phone: user.phone,
+        //                 },
+        //                 date : {
+        //                     day : selectedDay,
+        //                     month : selectedMonth
+        //                 }
+
+        //             }),
+        //         }
+        //         console.log({selectedDay})
+        //         console.log({selectedMonth});
+        //         // console.log(requestOptions)
+        //         fetch("https://safeqstore.herokuapp.com/store/bookings", requestOptions)
+        //             .then((res) => {
+        //                 if (res.status === 200)
+        //                     res.json()
+        //                         .then(data => { setBookings(data.bookings); setLoading(false);
+        //                             // console.log(data.bookings);
+        //                             console.log({selectedDay});
+        //                             console.log({selectedMonth})
+        //                         })
+        //                 else {
+        //                     Alert.alert("Something went wrong ", res.statusText)
+        //                 }
+        //             })
+        //     })
+
     }
 
     // const removeBooking = (_id) =>{
@@ -111,11 +173,12 @@ const Home = ({navigation}) =>{
 
                 <View style = {styles.container}>
                     <Calendar style={styles.Calendar}
-                        current={current}                                  
+                        current={current}    
+                        monthFormat={'dd MMMM yyyy'}                              
                         hideExtraDays={true}
                         disableAllTouchEventsForDisabledDays={true}
                         theme={{
-                        backgroundColor: "#FFF",
+                        backgroundColor: "#F1F1F1",
                         monthTextColor: "#0062FF",
                         textMonthFontSize: 18,
 

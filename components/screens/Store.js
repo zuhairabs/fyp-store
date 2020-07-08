@@ -42,7 +42,7 @@ const Store = ({ navigation }) => {
                     }),
                 }
                 // console.log(requestOptions)
-                fetch("https://shopout.herokuapp.com/store/storefetch", requestOptions)
+                fetch("https://safeqstore.herokuapp.com/store/storefetch", requestOptions)
                     .then((res) => {
                         if (res.status === 200)
                             res.json()

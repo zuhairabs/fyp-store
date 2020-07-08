@@ -13,7 +13,7 @@ const Support = ({ navigation }) => {
     const sendRequest = () => {
         const bootstrapper = async () => {
             let user = JSON.parse(await AsyncStorage.getItem("user"))
-            fetch("https://shopout.herokuapp.com/user/support/submit", {
+            fetch("https://safeqstore.herokuapp.com/user/support/submit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
