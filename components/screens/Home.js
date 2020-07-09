@@ -32,15 +32,18 @@ const Home = ({navigation}) =>{
         return date;
     }
     const date = new Date();
-    // console.log(date)
+    // console.log(date.getDate());
     // console.log(date.getHours());
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [current, setCurrent] = useState(date.addDays(1));
+    const [today,setToday]=useState(date.getDate());
     const [markedDate, setMarkedDate] = useState({});
     const [selectedDay, setSelectedDay] = useState(date.getDate());
     const [selectedMonth, setSelectedMonth] = useState(date.getMonth() + 1);
+    const [selectedYear, setSelectedYear] = useState(date.getFullYear());
 
+    // console.log({current});
     // console.log({selectedDay})
     // console.log({selectedMonth});
 
@@ -52,7 +55,9 @@ const Home = ({navigation}) =>{
         }
         bootstrapper()
             .then(({ user, token }) => {
-               
+                // console.log({selectedDay});
+                // console.log({selectedMonth});
+                // console.log({selectedYear});
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -66,7 +71,8 @@ const Home = ({navigation}) =>{
                         // date : selectedDate
                         date : {
                             day : selectedDay,
-                            month : selectedMonth
+                            month : selectedMonth,
+                            year : selectedYear
                         }
                     }),
                 }
@@ -85,8 +91,8 @@ const Home = ({navigation}) =>{
                     })
             })
     }, [])
-    const onDayPress =  (day) => {
-        // console.log(day);
+    const onDayPress = (day) => {
+        console.log(day);
         // console.log(day.day)
         const selected = day.dateString;
         // console.log(selected);
@@ -100,52 +106,53 @@ const Home = ({navigation}) =>{
         }
         setMarkedDate(data);
         setSelectedDay(day.day);
+        setSelectedYear(day.year);
         // console.log({selectedDay})
         setSelectedMonth(day.month);
-        console.log({selectedDay})
-        console.log({selectedMonth});
+        //  console.log({selectedMonth});
         // console.log({selectedMonth});
-        // const bootstrapper = async () => {
-        //     let user = JSON.parse(await AsyncStorage.getItem("user"))
-        //     let token = await AsyncStorage.getItem("jwt")
-        //     return { user, token }
-        // }
-        // bootstrapper()
-        //     .then(({ user, token }) => {
-        //         const requestOptions = {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 authorization: "Bearer " + token,
-        //             },
-        //             body: JSON.stringify({
-        //                 cred: {
-        //                     phone: user.phone,
-        //                 },
-        //                 date : {
-        //                     day : selectedDay,
-        //                     month : selectedMonth
-        //                 }
-
-        //             }),
-        //         }
-        //         console.log({selectedDay})
-        //         console.log({selectedMonth});
-        //         // console.log(requestOptions)
-        //         fetch("https://safeqstore.herokuapp.com/store/bookings", requestOptions)
-        //             .then((res) => {
-        //                 if (res.status === 200)
-        //                     res.json()
-        //                         .then(data => { setBookings(data.bookings); setLoading(false);
-        //                             // console.log(data.bookings);
-        //                             console.log({selectedDay});
-        //                             console.log({selectedMonth})
-        //                         })
-        //                 else {
-        //                     Alert.alert("Something went wrong ", res.statusText)
-        //                 }
-        //             })
-        //     })
+        const bootstrapper = async () => {
+            let user = JSON.parse(await AsyncStorage.getItem("user"))
+            let token = await AsyncStorage.getItem("jwt")
+            return { user, token }
+        }
+        bootstrapper()
+            .then(({ user, token }) => {
+                // console.log({selectedDay});
+                // console.log({selectedMonth});
+                // console.log({selectedYear});
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: "Bearer " + token,
+                    },
+                    body: JSON.stringify({
+                        cred: {
+                            phone: user.phone,
+                        },
+                        // date : selectedDate
+                        date : {
+                            day : selectedDay,
+                            month : selectedMonth,
+                            year : selectedYear
+                        }
+                    }),
+                }
+                // console.log(requestOptions)
+                fetch("https://safeqstore.herokuapp.com/store/bookings", requestOptions)
+                    .then((res) => {
+                        if (res.status === 200)
+                            res.json()
+                                .then(data => { setBookings(data.bookings); setLoading(false);
+                                    // console.log(data.bookings);
+                                   
+                                })
+                        else {
+                            Alert.alert("Something went wrong ", res.statusText)
+                        }
+                    })
+            })
 
     }
 
@@ -193,30 +200,40 @@ const Home = ({navigation}) =>{
                         markedDates={markedDate}
                     />
                 </View>
-                <View style={styles.tabNavigation}>
-                    <View style={styles.tab}>
-                        <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}>
-                            <Text style={styles.tabNavigationTextSelected}>Today</Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View style={styles.tab}>
-                        <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                        onPress={() => {
-                            Alert.alert("Bookings for tomorrow")
+                {
+                    today === selectedDay 
+                        ? 
+                            <View style={styles.tabNavigation}>
+                                <View style={styles.tab}>
+                                    <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}>
+                                        <Text style={styles.tabNavigationTextSelected}>Today</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <View style={styles.tab}>
+                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
+                                    onPress={() => {
+                                        Alert.alert("Bookings for tomorrow")
 
-                            }}
-                        >
-                            <Text style={styles.tabNavigationText}>Tomorrow</Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                    <View style={styles.tab}>
-                        <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                            onPress = {()=>{Alert.alert("Bookings for this week")}}
-                        >
-                            <Text style={styles.tabNavigationText}>This Week</Text>
-                        </TouchableWithoutFeedback>
-                    </View>
-                </View>
+                                        }}
+                                    >
+                                        <Text style={styles.tabNavigationText}>Tomorrow</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <View style={styles.tab}>
+                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
+                                        onPress = {()=>{Alert.alert("Bookings for this week")}}
+                                    >
+                                        <Text style={styles.tabNavigationText}>This Week</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                            </View>
+                        :
+                            <View style={styles.selectedDay}>
+                            <TouchableWithoutFeedback style={styles.ObjectSelectedDay}>
+                                <Text style={styles.TextSelectedDay}>{selectedDay}-{selectedMonth}-{selectedYear}</Text>
+                            </TouchableWithoutFeedback>
+                        </View>           
+                }   
                 <ScrollView  contentContainerStyle={{
                     justifyContent: "center",
                     alignItems: "center",
@@ -231,16 +248,16 @@ const Home = ({navigation}) =>{
                                     height: Dimensions.get('window').height - 100,
                                     width: "100%"
                                 }}
-                            >
+                             >
                                 <ActivityIndicator size="large" color="#0062FF" />
-                            </View>
+                                </View>
                             : <View style={styles.results}>
                                 {
                                     bookings.map(booking => {
                                         return <BookingCard key={booking._id} booking={booking} navigation={navigation}  />
                                     })
                                 }
-                            </View>
+                              </View>
                     }
                 </ScrollView>
             </ScrollView>    
@@ -314,6 +331,33 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingHorizontal: 15,
     },
+    selectedDay : {
+        flex : 1,
+        padding : 10,
+        justifyContent : "flex-start",
+        alignItems : "flex-start",
+        // flexDirection : "row",
+        // paddingHorizontal: 20,
+        // marginTop: 20,
+        // marginBottom: 30,
+
+    },
+    ObjectSelectedDay:{
+        borderBottomWidth: 3,
+        borderColor: "#0062FF",
+        // alignItems: "center",
+        justifyContent : "flex-start",
+        alignItems : "flex-start",
+    },
+    TextSelectedDay : {
+        fontSize: 18,
+        color: "#707070",
+        borderBottomWidth: 1,
+        borderColor: "#00000000",
+        paddingBottom: 10,
+        paddingHorizontal: 15,
+    }
 })
+
 
 export default Home;

@@ -2,24 +2,24 @@ import React from 'react'
 import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const NotificationCard = (props) => {
+const NotificationCard = ({notification}) => {
     
     return (
         <>
             {
-                props.notification.readStatus
+                notification.readStatus
                     ? <View style={styles.container}>
                         <View style={styles.imageContainer}>
                             <Image source={require('./cafe.png')} style={styles.image} />
                         </View>
                         <View style={styles.contentContainer}>
                             <Text style={styles.title}>
-                                {/* {props.notification.text} */}
-                                Novato booked an appointment
+                                {notification.text}
+                                {/* Novato booked an appointment */}
                             </Text>
                             <Text style={styles.date}>
-                                {/* {new Date(props.notification.generatedTime).toLocaleDateString()} */}
-                                5 Mins ago
+                                {new Date(notification.generatedTime).toLocaleDateString()}
+                              
                             </Text>
                         </View>
                     </View>
@@ -27,19 +27,19 @@ const NotificationCard = (props) => {
                     <View style={styles.containerUnread}>
                         <View style={styles.imageContainer}>
                             {
-                                props.notification.image
+                                notification.image
                                     ? <Image source={require('./cafe.png')} style={styles.image} />
                                     : <Image source={require('./shopout.png')} style={styles.image} />
                             }
                         </View>
                         <View style={styles.contentContainer}>
                             <Text style={styles.title}>
-                                {/* {props.notification.text} */}
-                                Novato booked an appointment
+                                {notification.text}
+                                {/* Novato booked an appointment */}
                             </Text>
                             <Text style={styles.date}>
-                               {/* {new Dat e(props.notification.generatedTime).toLocaleDateString()} */}
-                                5 Mins ago
+                               {new Date(notification.generatedTime).toLocaleDateString()}
+                                {/* 5 Mins ago */}
                             </Text>
                         </View>
                     </View>

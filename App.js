@@ -23,6 +23,7 @@ import Store from './components/screens/Store';
 import Business from './components/screens/Business';
 import Support from './components/screens/Support';
 import QrScanner from './components/screens/QrScanner';
+import LeftHeader from './components/Header/LeftHeader'
 
 
 
@@ -353,7 +354,7 @@ const App = () => {
                       name="Business"
                       component={Business}
                     />
-                    {/* <Stack.Screen
+                    <Stack.Screen
                       name="NotificationsFull"
                       component={NotificationsFull}
                       options={{
@@ -380,7 +381,7 @@ const App = () => {
                           padding: 20,
                         }
                       }}
-                    /> */}
+                    />
                     {/* <Stack.Screen
                       name="QrScanner"
                       component={QrScanner}
