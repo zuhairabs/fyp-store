@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Alert, Text,View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Alert, Text, View } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
-import  AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
@@ -23,13 +23,15 @@ import Store from './components/screens/Store';
 import Business from './components/screens/Business';
 import Support from './components/screens/Support';
 import QrScanner from './components/screens/QrScanner';
-import LeftHeader from './components/Header/LeftHeader'
+import TomorrowBookings from './components/screens/TomorrowBookings';
+import WeekBookings from './components/screens/WeekBookings';
 
 
+import NotificationIcon from './notifications.svg'
+import QrCodeIcon from './qr_code.svg'
+import MenuIcon from './menu.svg'
 
-
-
-import {AuthContext} from './components/context'
+import { AuthContext } from './components/context'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const App = () => {
@@ -98,7 +100,7 @@ const App = () => {
                 },
               }),
             }
-           
+
             fetch('https://safeqstore.herokuapp.com/store/verify', requestOptions)
               .then(response => {
                 if (response.status === 200)
@@ -216,69 +218,59 @@ const App = () => {
       }
     }), [])
 
-  const clearNotifications = async() =>{
-    const markRead = async()=>{
+  const clearNotifications = async () => {
+    const markRead = async () => {
       let user = JSON.parse(await AsyncStorage.getItem("user"));
-      user.notificaitons.forEach(notification => {notification.readStatus = true});
+      user.notificaitons.forEach(notification => { notification.readStatus = true });
       return user
     }
-    markRead().then(user=>{
+    markRead().then(user => {
       AsyncStorage.setItem("user", user)
     })
   }
 
-  const LeftMenuIcon = ({navigation}) => 
-    <View>
-      <TouchableOpacity >
-        <Icon 
-          name='menu' 
-          size={25} 
-          color='#000'
-          onPress={()=> Alert.alert("Profile clicked")}
-        />
-      </TouchableOpacity> 
-    </View>  
-  
-  
+  const navigationRef = React.createRef();
 
-  const RightMenuIcon = ({navigation}) =>
-  {
-  return (
-  <View style= {{flexDirection : 'row',}}>
-    <TouchableOpacity>
-      <Icon 
-        name='bell-outline' 
-        size={25} 
-        color='#3333ff' 
-        style={{ paddingLeft: 15, width: 40 }}
-        onPress={() => Alert.alert("Notification button clicked")}
-      />
-    </TouchableOpacity> 
-    <TouchableOpacity >
-      <Icon 
-        name='qrcode-scan' 
-        size={25} 
-        color='#3333ff' 
-        style={{ paddingLeft: 15}}
-        onPress={() => Alert.alert("Qr Scanner button clicked")}
-        // onPress={() => {
-        //   navigation.navigate("QrScanner")
-        // }}
-      />
-    </TouchableOpacity> 
-  </View>  
-  )
+  const LeftMenuIcon = () => {
+    return <View>
+      <TouchableOpacity onPress={() => { navigationRef.current?.navigate("Profile") }}>
+        <Icon
+          name='menu'
+          size={30}
+          color='#000'
+          
+        />
+      </TouchableOpacity>
+    </View>
   }
 
-  
-  
-  
+
+
+  const RightMenuIcon = () => {
+    return (
+      <View style={{ flexDirection: 'row',justifyContent:'space-around',height:26}}>
+        <TouchableOpacity 
+          onPress={() => navigationRef.current?.navigate("NotificationsFull")}
+          style={{marginRight:15}}
+        >
+          <NotificationIcon/>
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={() => navigationRef.current?.navigate("QrScanner")}>
+          <QrCodeIcon />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+
+
+
 
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        <Stack.Navigator 
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator
           screenOptions={{
             headerShown: false
           }}
@@ -310,24 +302,68 @@ const App = () => {
               ) : (
                   <>
                     <Stack.Screen
-                      name="Home" 
-                      component={Home} 
+                      name="Home"
+                      component={Home}
                       options={{
-                        title : "Schedule",
-                        headerShown : true,
-                        headerLeft : LeftMenuIcon,
+                        title: "Schedule",
+                        headerTitleStyle:{
+                          fontSize : 26,
+                          fontWeight : "normal"
+                        },
+                        headerShown: true,
+                        headerLeft: LeftMenuIcon,
                         headerLeftContainerStyle: {
                           padding: 20,
                         },
-                        headerRight : RightMenuIcon,
+                        headerRight: RightMenuIcon,
                         headerRightContainerStyle: {
-                          padding: 20,  
+                          padding: 20,
                         },
 
                       }}
-                      
-                    
-                     />
+                    />
+                    <Stack.Screen
+                      name="TomorrowBookings"
+                      component={TomorrowBookings}
+                      options={{
+                        title: "Schedule",
+                        headerTitleStyle:{
+                          fontSize : 26,
+                          fontWeight : "normal"
+                        },
+                        headerShown: true,
+                        headerLeft: LeftMenuIcon,
+                        headerLeftContainerStyle: {
+                          padding: 20,
+                        },
+                        headerRight: RightMenuIcon,
+                        headerRightContainerStyle: {
+                          padding: 20,
+                        },
+
+                      }}
+                    />
+                    <Stack.Screen
+                      name="WeekBookings"
+                      component={WeekBookings}
+                      options={{
+                        title: "Schedule",
+                        headerTitleStyle:{
+                          fontSize : 26,
+                          fontWeight : "normal"
+                        },
+                        headerShown: true,
+                        headerLeft: LeftMenuIcon,
+                        headerLeftContainerStyle: {
+                          padding: 20,
+                        },
+                        headerRight: RightMenuIcon,
+                        headerRightContainerStyle: {
+                          padding: 20,
+                        },
+
+                      }}
+                    />
                     <Stack.Screen
                       name="Profile"
                       component={Profile}
@@ -360,7 +396,7 @@ const App = () => {
                       options={{
                         title: "Notifications",
                         headerShown: true,
-                        headerLeft: () => {
+                        headerBackImage: () => {
                           return <BackButton />
                         },
                         headerLeftContainerStyle: {
@@ -382,48 +418,27 @@ const App = () => {
                         }
                       }}
                     />
-                    {/* <Stack.Screen
+                    <Stack.Screen
                       name="QrScanner"
                       component={QrScanner}
                       options={{
                         title: "QrScanner",
                         headerShown: true,
-                        headerLeft: () => {
+                        headerBackImage: () => {
                           return <BackButton />
                         },
                         headerLeftContainerStyle: {
                           padding: 20,
                         },
                       }}
-                    /> */}
-                    {/* <Stack.Screen
-                      name="Home" 
-                      component={Home} 
-                      options={{
-                        title : "Schedule",
-                        headerShown : true,
-                        headerLeft : LeftMenuIcon,
-                        headerLeftContainerStyle: {
-                          padding: 20,
-                        },
-                        headerRight : RightMenuIcon,
-                        headerRightContainerStyle: {
-                          padding: 20,  
-                        },
-
-                      }}
-                      
-                    
-                     /> */}
-                   
-                    
+                    />
                   </>
                 )
             )}
-          
+
         </Stack.Navigator>
       </NavigationContainer>
-      </AuthContext.Provider>  
+    </AuthContext.Provider>
   );
 }
 

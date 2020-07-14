@@ -9,6 +9,8 @@ import {AuthContext} from '../context'
 import StatusBarWhite from '../UXComponents/StatusBar'
 import MenuBackground from '../UXComponents/MenuBackground'
 
+import StoreIcon from './Ellipse.svg'
+
 const Profile = ({ navigation }) => {
 
     const { signOut } = React.useContext(AuthContext);
@@ -42,14 +44,14 @@ const Profile = ({ navigation }) => {
                                     user.avatar ?
                                         <Image source={{ uri: `data:image/gif;base64,${user.avatar}` }} style={styles.avatar} />
                                         :
-                                        <Icon name="person" size={60} color="#0062FF" />
+                                       <StoreIcon/>
                                 }
                             </View>
                         </View>
                         <View style={styles.details}>
                             <Text style={styles.name}>{user.name}</Text>
-                            <Text style={styles.name}>{user.city}</Text>
-                            <Text style={styles.number}>+91 {user.phone}</Text>
+                            <Text style={styles.name}>{user.location_desc},{user.city}</Text>
+                            {/* <Text style={styles.number}>+91 {user.phone}</Text> */}
                         </View>                           
                     </View>
                     <View style={styles.buttonContainer}>
@@ -62,7 +64,7 @@ const Profile = ({ navigation }) => {
                             <View style={styles.buttonIcon}>
                                 <Image source={require('./menu-icons/baseline_store_black_48dp.png')} style={styles.buttonIconImage} />
                             </View>
-                            <Text style={styles.buttonText}>Store</Text>
+                            <Text style={styles.buttonText}>My Store</Text>
                         </TouchableOpacity>
                         
                         <TouchableOpacity

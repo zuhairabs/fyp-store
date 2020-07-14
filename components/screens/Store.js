@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, StatusBar, Dimensions,Image, Text,Alert, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { View, StyleSheet, StatusBar, Dimensions,Image, Text,Alert, Keyboard,Button, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import { ScrollView, TouchableWithoutFeedback, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import Svg, { Circle } from 'react-native-svg'
@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 import StatusBarWhite from '../UXComponents/StatusBar'
 import NavbarBackButton from '../Header/NavbarBackButton'
 import ProfileBackground from '../UXComponents/ProfileBackground'
+
+import StoreIcon from './Ellipse.svg'
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -92,7 +94,7 @@ const Store = ({ navigation }) => {
                                 // headerImage ?
                                 //     <Image source={{ uri: `data:image/gif;base64,${headerImage}`}} style={styles.avatar} />
                                 //     :
-                                    <Image source={require('./menu-icons/baseline_store_black_48dp.png')}  />
+                                    <StoreIcon/>
                             }
                             
                         </View>
@@ -137,9 +139,9 @@ const Store = ({ navigation }) => {
                                                 </View>
                                             })
                                         }
-                     </View>
+                    </View>
                         
-                </View>
+                
     
                     <View style = {styles.storedescription}>
                         <Text style={styles.subheading}>
@@ -147,10 +149,7 @@ const Store = ({ navigation }) => {
                         </Text>
                         <View  style={styles.value}>
                             <Text>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore
-                            
+                               {storeData.description}
                             </Text>
                         </View>
                     </View>
@@ -178,19 +177,18 @@ const Store = ({ navigation }) => {
                             </Text>
                         </View>
                     </View>
-                <View style = {styles.storedescription}>
-                    <Text style={styles.subheading}>
-                        Average Appointment Time
-                    </Text>
-                    <View  style={styles.value}>
-                        <Text>
-                            45 Mins  
+                    <View style = {styles.storedescription}>
+                        <Text style={styles.subheading}>
+                            Average Appointment Time
                         </Text>
+                        <View  style={styles.value}>
+                            <Text>
+                                45 Mins  
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                <View>
-                    <Text></Text>
-                </View>
+                </View>    
+
 
             </ScrollView>
 
@@ -210,8 +208,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 0,
         marginTop: 20,
-        justifyContent: "center",
-        alignItems: "center",
+        marginBottom:40,
         backgroundColor: "#FFF"
     },
     circleTop: {
@@ -254,9 +251,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginTop: 20,
         marginBottom: 10,
+    
     },
     tab: {
         flex: 1,
@@ -267,7 +265,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#6666666F"
     },
     tabNavigationObjectSelected: {
-        borderBottomWidth: 3,
+        borderBottomWidth: 2,
         borderColor: "#0062FF",
         alignItems: "center"
     },
@@ -281,7 +279,7 @@ const styles = StyleSheet.create({
     },
     tabNavigationTextSelected: {
         fontSize: 18,
-        color: "#707070",
+        color: "#0062FF",
         borderBottomWidth: 1,
         borderColor: "#00000000",
         paddingBottom: 10,
@@ -294,12 +292,12 @@ const styles = StyleSheet.create({
         width: "100%",
         height: Math.floor(WINDOW_HEIGHT / 9),
         marginTop: 20,
-        marginBottom : 10,
+        marginBottom : 30,
     },
     carouselImageContainer: {
         marginHorizontal: 10,
         borderColor: "#66666666",
-        borderRadius: 10,
+        borderRadius: 6,
         width : 70,
         height : 70,
         flex: 1,
@@ -321,27 +319,44 @@ const styles = StyleSheet.create({
         borderRadius: 6,
     },
     subheading: {
-        marginLeft: 20,
         fontSize: 14,
         color : "#6666666F"
     },
     value : {
-        marginLeft : 20,
         marginTop : 10,
         fontSize: 16,
         color : "#6666666F",
-        paddingRight : 20,
-        
-        
     },
     storedescription : {
-        padding : 10,
-        marginBottom :10,
         borderBottomWidth : 1,
-        borderBottomColor : "#6666666F",       
+        borderBottomColor : "#E5E5E5",       
         backgroundColor: "#FFF",
+        paddingBottom:20,
+        marginBottom: 20,
+        marginLeft:10,
+        marginRight : 10
  
-    }
+    },
+    buttonArea: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 55,
+        marginTop:20,
+        
+    },
+    defaultButton: {
+        width: Dimensions.get("window").width - 186,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 23,
+        backgroundColor: "#0062FF",
+        padding: 10,
+    },
+    defaultButtonText: {
+        color: "#FFF",
+        fontSize: 16,
+    },
     
 })
 

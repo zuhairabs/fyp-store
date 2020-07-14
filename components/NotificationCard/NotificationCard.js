@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import ProfilePhoto from './Ellipse.svg'
 
 const NotificationCard = ({notification}) => {
     
@@ -10,26 +11,18 @@ const NotificationCard = ({notification}) => {
                 notification.readStatus
                     ? <View style={styles.container}>
                         <View style={styles.imageContainer}>
-                            <Image source={require('./cafe.png')} style={styles.image} />
-                        </View>
-                        <View style={styles.contentContainer}>
-                            <Text style={styles.title}>
-                                {notification.text}
-                                {/* Novato booked an appointment */}
-                            </Text>
-                            <Text style={styles.date}>
-                                {new Date(notification.generatedTime).toLocaleDateString()}
-                              
-                            </Text>
-                        </View>
-                    </View>
-                    :
-                    <View style={styles.containerUnread}>
-                        <View style={styles.imageContainer}>
                             {
-                                notification.image
-                                    ? <Image source={require('./cafe.png')} style={styles.image} />
-                                    : <Image source={require('./shopout.png')} style={styles.image} />
+                               notification.user && notification.user.avatar 
+                                ?
+                                    <Image
+                                        source={{
+                                        uri: `data:image/gif;base64,${notification.user.avatar}`
+                                        }}
+                                        style={styles.image}
+                                    />
+                                :
+                                    // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
+                                    <ProfilePhoto />
                             }
                         </View>
                         <View style={styles.contentContainer}>
@@ -38,7 +31,36 @@ const NotificationCard = ({notification}) => {
                                 {/* Novato booked an appointment */}
                             </Text>
                             <Text style={styles.date}>
-                               {new Date(notification.generatedTime).toLocaleDateString()}
+                                {new Date(notification.generatedTime).toLocaleDateString("en-GB",{year:"2-digit",month:"2-digit", day:"2-digit"})}
+                              
+                            </Text>
+                        </View>
+                    </View>
+                    :
+                    <View style={styles.containerUnread}>
+                        <View style={styles.imageContainer}>
+                            {
+                                 
+                                notification.user && notification.user.avatar ?
+                                    <Image
+                                        source={{
+                                        uri: `data:image/gif;base64,${notification.user.avatar}`
+                                        }}
+                                        style={styles.image}
+                                    />
+                                :
+                                    // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
+                                    <ProfilePhoto />
+                                
+                            }
+                        </View>
+                        <View style={styles.contentContainer}>
+                            <Text style={styles.title}>
+                                {notification.text}
+                                {/* Novato booked an appointment */}
+                            </Text>
+                            <Text style={styles.date}>
+                               {new Date(notification.generatedTime).toLocaleDateString("en-GB",{year:"2-digit",month:"2-digit", day:"2-digit"})}
                                 {/* 5 Mins ago */}
                             </Text>
                         </View>
@@ -89,7 +111,8 @@ const styles = StyleSheet.create({
     date: {
         flex: 1,
         fontSize: 10,
-        color: "#666"
+        color: "#666",
+        marginTop:10
     }
 })
 

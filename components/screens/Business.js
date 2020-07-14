@@ -9,6 +9,8 @@ import StatusBarWhite from '../UXComponents/StatusBar'
 import NavbarBackButton from '../Header/NavbarBackButton'
 import ProfileBackground from '../UXComponents/ProfileBackground'
 
+import StoreIcon from './Ellipse.svg'
+
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
@@ -86,10 +88,10 @@ const Store = ({ navigation }) => {
                     <View style={styles.userPhotoContainer}>
                         <View style={styles.photo}>
                             {
-                                headerImage ?
-                                    <Image source={{ uri: `data:image/gif;base64,${headerImage}`}} style={styles.avatar} />
-                                    :
-                                    <Image source={require('./menu-icons/baseline_store_black_48dp.png')}  />
+                                // headerImage ?
+                                //     <Image source={{ uri: `data:image/gif;base64,${headerImage}`}} style={styles.avatar} />
+                                //     :
+                                   <StoreIcon/>
                             }
                             
                         </View>
@@ -115,49 +117,38 @@ const Store = ({ navigation }) => {
                         </View>
                         
                     </View>
-                </View>
-                <View style = {styles.businessdescription}>
-                    <Text style={styles.subheading}>
-                        Business Type
-                    </Text>
-                    <View  style={styles.value}>
-                        <Text>
-                            Sole Proprietorship                         
+                    <View style = {styles.businessdescription}>
+                        <Text style={styles.subheading}>
+                            Store ID
                         </Text>
+                        <View  style={styles.value}>
+                            <Text>
+                                1234567890                           
+                            </Text>
+                        </View>
+                    </View>
+                    <View style = {styles.businessdescription}>
+                        <Text style={styles.subheading}>
+                            Contact Number
+                        </Text>
+                        <View  style={styles.value}>
+                            <Text>
+                                +91 9876543210                            
+                            </Text>
+                        </View>
+                    </View>
+                    <View style = {styles.businessdescription}>
+                        <Text style={styles.subheading}>
+                            Address
+                        </Text>
+                        <View  style={styles.value}>
+                            <Text>
+                            Kenilworth Mall, Linking Road, Bandra West,
+                            Mumbai, Maharashtra 400050                            
+                            </Text>
+                        </View>
                     </View>
                 </View>
-                <View style = {styles.businessdescription}>
-                    <Text style={styles.subheading}>
-                        Store ID
-                    </Text>
-                    <View  style={styles.value}>
-                        <Text>
-                            1234567890                           
-                        </Text>
-                    </View>
-                </View>
-                <View style = {styles.businessdescription}>
-                    <Text style={styles.subheading}>
-                        Contact Number
-                    </Text>
-                    <View  style={styles.value}>
-                         <Text>
-                            +91 9876543210                            
-                        </Text>
-                    </View>
-                </View>
-                <View style = {styles.businessdescription}>
-                    <Text style={styles.subheading}>
-                        Address
-                    </Text>
-                    <View  style={styles.value}>
-                        <Text>
-                        Kenilworth Mall, Linking Road, Bandra West,
-                        Mumbai, Maharashtra 400050                            
-                        </Text>
-                    </View>
-                </View>
-                
 
             </ScrollView>
 
@@ -174,11 +165,9 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     contentContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
         paddingVertical: 0,
         marginTop: 20,
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "#FFF"
     },
     circleTop: {
@@ -221,9 +210,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        paddingHorizontal: 20,
+        // paddingHorizontal: 10,
         marginTop: 20,
-        marginBottom: 10,
+        marginBottom: 30,
     },
     tab: {
         flex : 1,
@@ -234,7 +223,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#6666666F"
     },
     tabNavigationObjectSelected: {
-        borderBottomWidth: 3,
+        borderBottomWidth: 2,
         borderColor: "#0062FF",
         alignItems: "center"
     },
@@ -248,7 +237,7 @@ const styles = StyleSheet.create({
     },
     tabNavigationTextSelected: {
         fontSize: 18,
-        color: "#707070",
+        color: "#0062FF",
         borderBottomWidth: 1,
         borderColor: "#00000000",
         paddingBottom: 10,
@@ -256,25 +245,51 @@ const styles = StyleSheet.create({
     },
     
     subheading: {
-        marginLeft: 20,
+        // marginLeft: 10,
         fontSize: 14,
         color : "#6666666F"
     },
     value : {
-        marginLeft : 20,
+        // marginLeft : 10,
         marginTop : 10,
         fontSize: 16,
         color : "#6666666F",
+        paddingRight : 20,
+        
         
         
     },
     businessdescription : {
-        padding : 10,
         borderBottomWidth : 1,
-        borderBottomColor : "#6666666F",     
-        backgroundColor: "#FFF"
+        borderBottomColor : "#E5E5E5",       
+        backgroundColor: "#FFF",
+        paddingBottom:20,
+        marginBottom: 20
    
-    }
+    },
+    buttonArea: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        // width: "10%",
+        marginBottom: 55,
+        marginTop:20,
+        
+    },
+    defaultButton: {
+        width: Dimensions.get("window").width - 186,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 23,
+        backgroundColor: "#0062FF",
+        padding: 10,
+    },
+    defaultButtonText: {
+        color: "#FFF",
+        fontSize: 16,
+        // textTransform: "uppercase",
+        // fontWeight: "bold"
+    },
     
 })
 

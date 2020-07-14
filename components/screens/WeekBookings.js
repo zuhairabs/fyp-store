@@ -9,7 +9,7 @@ import {AuthContext} from '../context'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 
 import StatusBarWhite from '../UXComponents/StatusBar'
-import BookingCard from '../BookingCard/bookingCard'
+import BookingCardWeek from '../BookingCard/bookingCardWeek'
 
 LocaleConfig.locales['en'] = {
     monthNames: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'],
@@ -23,7 +23,7 @@ LocaleConfig.defaultLocale = 'en';
 
 
 
-const Home = ({navigation}) =>{
+const weekbookings = ({navigation}) =>{
     Date.prototype.addDays = function (days) {
         var date = new Date(this.valueOf());
         date.setDate(date.getDate() + days);
@@ -43,20 +43,19 @@ const Home = ({navigation}) =>{
     const [today,setToday]=useState(date.getDate());
     const [tomorrow,setTomorrow]=useState((date.addDays(1)).getDate());
     const [markedDate, setMarkedDate] = useState({});
-    const [selectedDay, setSelectedDay] = useState(date.getDate());
+    const [selectedDay, setSelectedDay] = useState();
     const [selectedMonth, setSelectedMonth] = useState(date.getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(date.getFullYear());
 
     
-    
-    const fetchBookings = (day=new Date())=>{
+    const fetchBookings = (day)=>{
         const bootstrapper = async () => {
             let user = JSON.parse(await AsyncStorage.getItem("user"))
             let token = await AsyncStorage.getItem("jwt")
             return { user, token }
         }
         bootstrapper()
-            .then(({ user, token }) => { 
+            .then(({ user, token }) => {
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -66,7 +65,7 @@ const Home = ({navigation}) =>{
                     body: JSON.stringify({
                         cred: {
                             phone: user.phone,
-                        },     
+                        },
                         date : {
                             day : day.day,
                             month : day.month,
@@ -78,7 +77,7 @@ const Home = ({navigation}) =>{
                     .then((res) => {
                         if (res.status === 200)
                             res.json()
-                                .then(data => { setBookings(data.bookings); setLoading(false);                        
+                                .then(data => { setBookings(data.bookings); setLoading(false);                       
                                 })
                         else {
                             Alert.alert("Something went wrong ", res.statusText)
@@ -89,12 +88,37 @@ const Home = ({navigation}) =>{
     }
 
     useEffect(() => {
-        const day={
-            day : date.getDate(),
-            month : date.getUTCMonth()+1,
-            year :date.getUTCFullYear()
+        const bootstrapper = async () => {
+            let user = JSON.parse(await AsyncStorage.getItem("user"))
+            let token = await AsyncStorage.getItem("jwt")
+            return { user, token }
         }
-        fetchBookings(day) ;    
+        bootstrapper()
+            .then(({ user, token }) => {
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: "Bearer " + token,
+                    },
+                    body: JSON.stringify({
+                        cred: {
+                            phone: user.phone,
+                        },
+                        date : date 
+                    }),
+                }
+                fetch("https://safeqstore.herokuapp.com/store/weekbookings", requestOptions)
+                    .then((res) => {
+                        if (res.status === 200)
+                            res.json()
+                                .then(data => { setBookings(data.bookings); setLoading(false);
+                                })
+                        else {
+                            Alert.alert("Something went wrong ", res.statusText)
+                        }
+                    })
+            })      
     }, [])
      
     const onDayPress =(day) => {
@@ -113,6 +137,8 @@ const Home = ({navigation}) =>{
         const setstate = async (data)=>{
             setMarkedDate(data);
             setSelectedDay(day.day);
+            setSelectedYear(day.year);
+            setSelectedMonth(day.month);
         }    
             setData().then((data)=>{
                 setstate(data).then(()=>{
@@ -121,7 +147,7 @@ const Home = ({navigation}) =>{
 
             })         
     }
-   
+
     return (
 
         <View style={styles.screenContainer}>
@@ -160,51 +186,54 @@ const Home = ({navigation}) =>{
                         dayTextColor: "#0062FF",
                         selectedDotColor: "#0062FF00",
                         textDayHeaderFontWeight: "bold",
-                        todayTextFontWeight : "bold"
                         }}
                         onDayPress={(day) => { onDayPress(day) }}
                         markedDates={markedDate}
                     />
                 </View>
                 {
-                    selectedDay === today 
+                    selectedDay == undefined
                         ? 
                             <View style={styles.tabNavigation}>
                                 <View style={styles.tab}>
-                                    <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}>
-                                        <Text style={styles.tabNavigationTextSelected}>Today</Text>
+                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
+                                        onPress={() => {
+                                            navigation.navigate("Home")
+                                        }}
+                                    >
+                                        <Text style={styles.tabNavigationText}>Today</Text>
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={styles.tab}>
                                     <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                                        onPress={() => {                                       
-                                            navigation.navigate("TomorrowBookings")                                     
-                                            }}
+                                    onPress={() => {
+                                        navigation.navigate("TomorrowBookings")
+                                        }}
                                     >
                                         <Text style={styles.tabNavigationText}>Tomorrow</Text>
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={styles.tab}>
-                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                                       onPress={() => {                                       
-                                        navigation.navigate("WeekBookings")                                     
-                                        }}
+                                    <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}
                                     >
-                                        <Text style={styles.tabNavigationText}>This Week</Text>
+                                        <Text style={styles.tabNavigationTextSelected}>This Week</Text>
                                     </TouchableWithoutFeedback>
                                 </View>
                             </View>
                         :
-                            selectedDay === tomorrow
+                            selectedDay === today
                                 ?
-                                    navigation.navigate("TomorrowBookings")
+                                    navigation.navigate("Home")
                                 :
-
-                                    <View style={styles.selectedDay}>
-                                        <TouchableWithoutFeedback style={styles.ObjectSelectedDay}>
-                                            <Text style={styles.TextSelectedDay}>{selectedDay}-{selectedMonth}-{selectedYear}</Text>
-                                        </TouchableWithoutFeedback>
-                                    </View>           
+                                    selectedDay === tomorrow
+                                        ?
+                                            navigation.navigate("TomorrowBookings")
+                                        :    
+                                            <View style={styles.selectedDay}>
+                                                <TouchableWithoutFeedback style={styles.ObjectSelectedDay}>
+                                                    <Text style={styles.TextSelectedDay}>{selectedDay}-{selectedMonth}-{selectedYear}</Text>
+                                                </TouchableWithoutFeedback>
+                                            </View>           
                 }   
                 <ScrollView  contentContainerStyle={{
                     justifyContent: "center",
@@ -232,7 +261,7 @@ const Home = ({navigation}) =>{
                                             </View>
                                         :   
                                             bookings.map(booking => {
-                                                return <BookingCard key={booking._id} booking={booking} navigation={navigation}  />
+                                                return <BookingCardWeek key={booking._id} booking={booking} navigation={navigation}  />
                                             })             
                                 }
                                    
@@ -249,13 +278,18 @@ const styles = StyleSheet.create({
     screenContainer: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         backgroundColor: "#FFFFFF",
+        // justifyContent: "center",
+        // alignItems: "center",
     },
     container: {
         // width: Dimensions.get('window').width,
         flex:1,
         marginLeft : 10,
-        marginRight:10,  
+        marginRight:10,
+        // backgroundColor : "#F8F9FD",
+       
         justifyContent: "center",
+        // alignItems: "center"
     },
     Calendar :{
         borderRadius : 18,
@@ -266,10 +300,13 @@ const styles = StyleSheet.create({
         color: "#0062FF"
     },
     tabNavigation: {
+        // width: "100%",
         flex : 1,
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
+        // paddingHorizontal: 20,
+        // padding:20,
         paddingBottom : 0,
         marginTop: 20,
         marginLeft:20,
@@ -283,6 +320,8 @@ const styles = StyleSheet.create({
     },
     tabNavigationObject: {
         alignItems: "flex-start",
+        // borderBottomWidth: 1,
+        // borderBottomColor: "#6666666F"
     },
     tabNavigationObjectSelected: {
         borderBottomWidth: 3,
@@ -303,6 +342,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "#00000000",
         paddingBottom: 10,
+        // paddingHorizontal: 15,
     },
     selectedDay : {
     
@@ -319,6 +359,7 @@ const styles = StyleSheet.create({
     ObjectSelectedDay:{
         borderBottomWidth: 3,
         borderColor: "#0062FF",
+        // alignItems: "center",
         justifyContent : "flex-start",
         alignItems : "flex-start",
     },
@@ -333,4 +374,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Home;
+export default weekbookings;

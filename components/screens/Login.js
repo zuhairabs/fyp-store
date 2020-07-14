@@ -85,9 +85,9 @@ const Login = ({ navigation }) => {
                         <TouchableOpacity style={styles.tabNavigationObjectSelected}>
                             <Text style={styles.tabNavigationText}>Login</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.tabNavigationObject} onPress={() => { navigation.navigate("SignUp") }}>
+                        {/* <TouchableOpacity style={styles.tabNavigationObject} onPress={() => { navigation.navigate("SignUp") }}>
                             <Text style={styles.tabNavigationText}>Register</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <View style={styles.form}>
                         <TextInput
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         borderColor: "#0062FF",
     },
     tabNavigationObjectSelected: {
-        borderBottomWidth: 3,
+        borderBottomWidth: 2,
         borderColor: "#0062FF",
     },
     tabNavigationText: {

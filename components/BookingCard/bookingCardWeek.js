@@ -9,7 +9,7 @@ import CheckCircle from './check_circle.svg'
 import Pending from './pending.svg'
 import ProfilePhoto from './Ellipse.svg'
 
-const BookingCard = (props) => {
+const BookingCardWeek = (props) => {
     const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     const [extended, setExtended] = useState(false)
@@ -22,6 +22,14 @@ const BookingCard = (props) => {
                 <TouchableWithoutFeedback
                     style={styles.mainCard}
                 >
+                    <View style={styles.dateContainer}>
+                        <Text style={styles.date}>
+                            {new Date(props.booking.start).getUTCDate()}
+                        </Text>
+                        <Text style={styles.date}>
+                            {mlist[new Date(props.booking.start).getUTCMonth()]}
+                        </Text>
+                    </View>
                    
                     <View style={styles.imageContainer}>
                         {
@@ -33,7 +41,6 @@ const BookingCard = (props) => {
                                     style={styles.image}
                                 />
                             :
-                                // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
                                 <ProfilePhoto />
                         }
 
@@ -85,14 +92,13 @@ const BookingCard = (props) => {
 const styles = StyleSheet.create({
     card: {
         width: Dimensions.get("window").width - 40,
-        marginBottom: 20,
-        paddingHorizontal:10
+        marginBottom: 30,
     },
     container: {
         flex: 1,
-        borderRadius: 8,
-        backgroundColor: "#FFFFFF",
-        elevation: 3,
+        borderRadius: 15,
+        backgroundColor: "#fff",
+        elevation: 10,
         zIndex: 0,
     },
     mainCard: {
@@ -116,16 +122,14 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 2,
         marginLeft: 20,
-        height: 60,
-        width: 60,
+        height: 70,
+        width: 70,
         justifyContent: "center",
-        alignItems: "center",
-    
-        
+        alignItems: "center"
     },
     image: {
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderRadius: 70 / 2,
     },
     details: {
@@ -133,30 +137,27 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: "space-between",
         alignItems: "flex-start",
-    
     },
     header: {
         fontSize: 18,
-        color: "#000000"
-    },
+        color: "#000000"    },
     time: {
-        marginTop : 5,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop : 5
     },
     timeText: {
-        fontSize : 16,
         color: "#666",
         marginLeft: 10,
     },
     bookingStatusIcon : {
         flex : 1,
         padding: 20,
-        justifyContent: "flex-end",
+        justifyContent: "center",
         alignItems: "center",
     },
     
 })
 
-export default BookingCard;
+export default BookingCardWeek;
