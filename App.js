@@ -1,41 +1,43 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import { Alert, Text, View } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
+const AuthContext = React.createContext();
 const Stack = createStackNavigator();
 
 import * as StorageService from './storageService'
 
+import Login from './screens/Authentication/Login';
+import SignUp from './screens/Authentication/SignUp';
+import Splash from './screens/Authentication/Splash';
 
-import Login from './components/screens/Login';
-import SignUp from './components/screens/SignUp';
-import Splash from './components/screens/Splash';
 import Home from './components/screens/Home';
-import Profile from './components/screens/Profile'
-import NotificationsFull from './components/screens/NotificationsFull';
-import BackButton from './components/UXComponents/BackButton';
-import Store from './components/screens/Store';
-import Business from './components/screens/Business';
-import Support from './components/screens/Support';
-import QrScanner from './components/screens/QrScanner';
 import TomorrowBookings from './components/screens/TomorrowBookings';
 import WeekBookings from './components/screens/WeekBookings';
 
+import NotificationsFull from './components/screens/NotificationsFull';
+
+import Profile from './components/screens/Profile'
+import Store from './components/screens/Store';
+import Business from './components/screens/Business';
+import Support from './components/screens/Support';
+
+import QrScanner from './components/screens/QrScanner';
+import BackButton from './components/UXComponents/BackButton';
 
 import NotificationIcon from './notifications.svg'
 import QrCodeIcon from './qr_code.svg'
 import MenuIcon from './menu.svg'
 
-import { AuthContext } from './components/context'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const App = () => {
-  console.disableYellowBox = true;
+  // console.disableYellowBox = true;
 
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -238,7 +240,7 @@ const App = () => {
           name='menu'
           size={30}
           color='#000'
-          
+
         />
       </TouchableOpacity>
     </View>
@@ -248,23 +250,19 @@ const App = () => {
 
   const RightMenuIcon = () => {
     return (
-      <View style={{ flexDirection: 'row',justifyContent:'space-around',height:26}}>
-        <TouchableOpacity 
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 26 }}>
+        <TouchableOpacity
           onPress={() => navigationRef.current?.navigate("NotificationsFull")}
-          style={{marginRight:15}}
+          style={{ marginRight: 15 }}
         >
-          <NotificationIcon/>
+          <NotificationIcon />
         </TouchableOpacity>
-        <TouchableOpacity  onPress={() => navigationRef.current?.navigate("QrScanner")}>
+        <TouchableOpacity onPress={() => navigationRef.current?.navigate("QrScanner")}>
           <QrCodeIcon />
         </TouchableOpacity>
       </View>
     )
   }
-
-
-
-
 
 
   return (
@@ -306,9 +304,9 @@ const App = () => {
                       component={Home}
                       options={{
                         title: "Schedule",
-                        headerTitleStyle:{
-                          fontSize : 26,
-                          fontWeight : "normal"
+                        headerTitleStyle: {
+                          fontSize: 26,
+                          fontWeight: "normal"
                         },
                         headerShown: true,
                         headerLeft: LeftMenuIcon,
@@ -327,9 +325,9 @@ const App = () => {
                       component={TomorrowBookings}
                       options={{
                         title: "Schedule",
-                        headerTitleStyle:{
-                          fontSize : 26,
-                          fontWeight : "normal"
+                        headerTitleStyle: {
+                          fontSize: 26,
+                          fontWeight: "normal"
                         },
                         headerShown: true,
                         headerLeft: LeftMenuIcon,
@@ -348,9 +346,9 @@ const App = () => {
                       component={WeekBookings}
                       options={{
                         title: "Schedule",
-                        headerTitleStyle:{
-                          fontSize : 26,
-                          fontWeight : "normal"
+                        headerTitleStyle: {
+                          fontSize: 26,
+                          fontWeight: "normal"
                         },
                         headerShown: true,
                         headerLeft: LeftMenuIcon,

@@ -4,12 +4,10 @@ import { TouchableOpacity, ScrollView, TextInput } from 'react-native-gesture-ha
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
 // import Navbar from '../Header/Navbar'
-import StatusBarWhite from '../UXComponents/StatusBar'
-import SecondaryBackground from '../UXComponents/SecondaryBackground'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
+import SecondaryBackground from '../../components/UXComponents/SecondaryBackground'
 
-import {AuthContext} from '../context'
-
-
+import { AuthContext } from '../context'
 
 const SignUp = ({ navigation }) => {
     const [phone, setPhone] = useState()
@@ -65,7 +63,7 @@ const SignUp = ({ navigation }) => {
 
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
                 <ScrollView style={styles.container}
-                    // stickyHeaderIndices={[0]}
+                // stickyHeaderIndices={[0]}
                 >
                     {/* <Navbar type="locked" /> */}
                     <View style={styles.contentContainer} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>

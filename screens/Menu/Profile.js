@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, StatusBar, Dimensions, Image, Alert, TextInput } from 'react-native'
+import { View, Text, StyleSheet, StatusBar, Dimensions, Image, Alert } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
-import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import {AuthContext} from '../context'
+import { AuthContext } from '../context'
 
-import StatusBarWhite from '../UXComponents/StatusBar'
-import MenuBackground from '../UXComponents/MenuBackground'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
+import MenuBackground from '../../components/Backgrounds/MenuBackground'
 
 import StoreIcon from './Ellipse.svg'
 
@@ -44,7 +43,7 @@ const Profile = ({ navigation }) => {
                                     user.avatar ?
                                         <Image source={{ uri: `data:image/gif;base64,${user.avatar}` }} style={styles.avatar} />
                                         :
-                                       <StoreIcon/>
+                                        <StoreIcon />
                                 }
                             </View>
                         </View>
@@ -52,7 +51,7 @@ const Profile = ({ navigation }) => {
                             <Text style={styles.name}>{user.name}</Text>
                             <Text style={styles.name}>{user.location_desc},{user.city}</Text>
                             {/* <Text style={styles.number}>+91 {user.phone}</Text> */}
-                        </View>                           
+                        </View>
                     </View>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
@@ -66,12 +65,12 @@ const Profile = ({ navigation }) => {
                             </View>
                             <Text style={styles.buttonText}>My Store</Text>
                         </TouchableOpacity>
-                        
+
                         <TouchableOpacity
                             onPress={() => {
                                 navigation.navigate("Support");
                             }}
-                            style={styles.button} 
+                            style={styles.button}
                             style={styles.button}
                         >
                             <View style={styles.buttonIcon}>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
-import Icon from 'react-native-vector-icons/dist/Feather'
-import { TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import NotificationCard from '../NotificationCard/NotificationCard'
-import NotificationBell from './notifications.svg'
+import NotificationBell from './svg/notifications.svg'
 
 const NotificationDropdown = (props) => {
 

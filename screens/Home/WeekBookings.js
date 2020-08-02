@@ -1,15 +1,13 @@
 
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet,StatusBar,Button, Dimensions, Alert,ActivityIndicator } from 'react-native'
-import Icon from 'react-native-vector-icons/dist/Feather'
-import { TouchableWithoutFeedback, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
+import { View, Text, StyleSheet, StatusBar, Dimensions, Alert, ActivityIndicator } from 'react-native'
+import { TouchableWithoutFeedback, ScrollView } from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage'
-import {AuthContext} from '../context'
 
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 
-import StatusBarWhite from '../UXComponents/StatusBar'
-import BookingCardWeek from '../BookingCard/bookingCardWeek'
+import BookingCardWeek from '../../components/BookingCard/bookingCardWeek'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
 
 LocaleConfig.locales['en'] = {
     monthNames: ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'],
@@ -21,9 +19,7 @@ LocaleConfig.locales['en'] = {
 LocaleConfig.defaultLocale = 'en';
 
 
-
-
-const weekbookings = ({navigation}) =>{
+const weekbookings = ({ navigation }) => {
     Date.prototype.addDays = function (days) {
         var date = new Date(this.valueOf());
         date.setDate(date.getDate() + days);
@@ -40,15 +36,15 @@ const weekbookings = ({navigation}) =>{
     const [current, setCurrent] = useState(date.addDays(1));
     const [maxDate, _setMaxDate] = useState(date.addDays(30));
     const [minDate, _setMinDate] = useState(date.previousDays(30));
-    const [today,setToday]=useState(date.getDate());
-    const [tomorrow,setTomorrow]=useState((date.addDays(1)).getDate());
+    const [today, setToday] = useState(date.getDate());
+    const [tomorrow, setTomorrow] = useState((date.addDays(1)).getDate());
     const [markedDate, setMarkedDate] = useState({});
     const [selectedDay, setSelectedDay] = useState();
     const [selectedMonth, setSelectedMonth] = useState(date.getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(date.getFullYear());
 
-    
-    const fetchBookings = (day)=>{
+
+    const fetchBookings = (day) => {
         const bootstrapper = async () => {
             let user = JSON.parse(await AsyncStorage.getItem("user"))
             let token = await AsyncStorage.getItem("jwt")
@@ -66,10 +62,10 @@ const weekbookings = ({navigation}) =>{
                         cred: {
                             phone: user.phone,
                         },
-                        date : {
-                            day : day.day,
-                            month : day.month,
-                            year : day.year
+                        date: {
+                            day: day.day,
+                            month: day.month,
+                            year: day.year
                         }
                     }),
                 }
@@ -77,13 +73,14 @@ const weekbookings = ({navigation}) =>{
                     .then((res) => {
                         if (res.status === 200)
                             res.json()
-                                .then(data => { setBookings(data.bookings); setLoading(false);                       
+                                .then(data => {
+                                    setBookings(data.bookings); setLoading(false);
                                 })
                         else {
                             Alert.alert("Something went wrong ", res.statusText)
                         }
                     })
-            })  
+            })
 
     }
 
@@ -105,25 +102,26 @@ const weekbookings = ({navigation}) =>{
                         cred: {
                             phone: user.phone,
                         },
-                        date : date 
+                        date: date
                     }),
                 }
                 fetch("https://safeqstore.herokuapp.com/store/weekbookings", requestOptions)
                     .then((res) => {
                         if (res.status === 200)
                             res.json()
-                                .then(data => { setBookings(data.bookings); setLoading(false);
+                                .then(data => {
+                                    setBookings(data.bookings); setLoading(false);
                                 })
                         else {
                             Alert.alert("Something went wrong ", res.statusText)
                         }
                     })
-            })      
+            })
     }, [])
-     
-    const onDayPress =(day) => {
+
+    const onDayPress = (day) => {
         console.log(day);
-        const setData = async ()=>{
+        const setData = async () => {
             const selected = day.dateString;
             const data = {}
             data[selected] = {
@@ -132,20 +130,20 @@ const weekbookings = ({navigation}) =>{
                 selectedColor: "#0062FF",
                 color: "#fff"
             }
-            return data ;
+            return data;
         }
-        const setstate = async (data)=>{
+        const setstate = async (data) => {
             setMarkedDate(data);
             setSelectedDay(day.day);
             setSelectedYear(day.year);
             setSelectedMonth(day.month);
-        }    
-            setData().then((data)=>{
-                setstate(data).then(()=>{
-                    fetchBookings(day);
-                })
+        }
+        setData().then((data) => {
+            setstate(data).then(() => {
+                fetchBookings(day);
+            })
 
-            })         
+        })
     }
 
     return (
@@ -159,33 +157,33 @@ const weekbookings = ({navigation}) =>{
                     // alignItems: "center",
                 }}
             >
-                <View style = {styles.container}>
+                <View style={styles.container}>
                     <Calendar style={styles.Calendar}
-                        current={current}    
+                        current={current}
                         minDate={minDate}
                         maxDate={maxDate}
-                        monthFormat={'MMMM yyyy'}                              
+                        monthFormat={'MMMM yyyy'}
                         hideExtraDays={true}
                         disableAllTouchEventsForDisabledDays={true}
                         theme={{
-                        backgroundColor: "#F1F1F1",
-                        calendarBackground: '#F1F1F1',
-                        monthTextColor: "#0062FF",
-                        textMonthFontSize: 18,
-                        'stylesheet.calendar.header': {
-                            week: {
-                              marginTop: 5,
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              color : "#666666"
+                            backgroundColor: "#F1F1F1",
+                            calendarBackground: '#F1F1F1',
+                            monthTextColor: "#0062FF",
+                            textMonthFontSize: 18,
+                            'stylesheet.calendar.header': {
+                                week: {
+                                    marginTop: 5,
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    color: "#666666"
+                                },
+
                             },
-        
-                          },
-                        indicatorColor: "#0062FF",
-                        arrowColor: "#0062FF",
-                        dayTextColor: "#0062FF",
-                        selectedDotColor: "#0062FF00",
-                        textDayHeaderFontWeight: "bold",
+                            indicatorColor: "#0062FF",
+                            arrowColor: "#0062FF",
+                            dayTextColor: "#0062FF",
+                            selectedDotColor: "#0062FF00",
+                            textDayHeaderFontWeight: "bold",
                         }}
                         onDayPress={(day) => { onDayPress(day) }}
                         markedDates={markedDate}
@@ -193,49 +191,49 @@ const weekbookings = ({navigation}) =>{
                 </View>
                 {
                     selectedDay == undefined
-                        ? 
-                            <View style={styles.tabNavigation}>
-                                <View style={styles.tab}>
-                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                                        onPress={() => {
-                                            navigation.navigate("Home")
-                                        }}
-                                    >
-                                        <Text style={styles.tabNavigationText}>Today</Text>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                                <View style={styles.tab}>
-                                    <TouchableWithoutFeedback style={styles.tabNavigationObject}
+                        ?
+                        <View style={styles.tabNavigation}>
+                            <View style={styles.tab}>
+                                <TouchableWithoutFeedback style={styles.tabNavigationObject}
+                                    onPress={() => {
+                                        navigation.navigate("Home")
+                                    }}
+                                >
+                                    <Text style={styles.tabNavigationText}>Today</Text>
+                                </TouchableWithoutFeedback>
+                            </View>
+                            <View style={styles.tab}>
+                                <TouchableWithoutFeedback style={styles.tabNavigationObject}
                                     onPress={() => {
                                         navigation.navigate("TomorrowBookings")
-                                        }}
-                                    >
-                                        <Text style={styles.tabNavigationText}>Tomorrow</Text>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                                <View style={styles.tab}>
-                                    <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}
-                                    >
-                                        <Text style={styles.tabNavigationTextSelected}>This Week</Text>
-                                    </TouchableWithoutFeedback>
-                                </View>
+                                    }}
+                                >
+                                    <Text style={styles.tabNavigationText}>Tomorrow</Text>
+                                </TouchableWithoutFeedback>
                             </View>
+                            <View style={styles.tab}>
+                                <TouchableWithoutFeedback style={styles.tabNavigationObjectSelected}
+                                >
+                                    <Text style={styles.tabNavigationTextSelected}>This Week</Text>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </View>
                         :
-                            selectedDay === today
+                        selectedDay === today
+                            ?
+                            navigation.navigate("Home")
+                            :
+                            selectedDay === tomorrow
                                 ?
-                                    navigation.navigate("Home")
+                                navigation.navigate("TomorrowBookings")
                                 :
-                                    selectedDay === tomorrow
-                                        ?
-                                            navigation.navigate("TomorrowBookings")
-                                        :    
-                                            <View style={styles.selectedDay}>
-                                                <TouchableWithoutFeedback style={styles.ObjectSelectedDay}>
-                                                    <Text style={styles.TextSelectedDay}>{selectedDay}-{selectedMonth}-{selectedYear}</Text>
-                                                </TouchableWithoutFeedback>
-                                            </View>           
-                }   
-                <ScrollView  contentContainerStyle={{
+                                <View style={styles.selectedDay}>
+                                    <TouchableWithoutFeedback style={styles.ObjectSelectedDay}>
+                                        <Text style={styles.TextSelectedDay}>{selectedDay}-{selectedMonth}-{selectedYear}</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                }
+                <ScrollView contentContainerStyle={{
                     justifyContent: "center",
                     alignItems: "center",
                 }}>
@@ -249,28 +247,28 @@ const weekbookings = ({navigation}) =>{
                                     height: Dimensions.get('window').height - 100,
                                     width: "100%"
                                 }}
-                             >
+                            >
                                 <ActivityIndicator size="large" color="#0062FF" />
-                                </View>
+                            </View>
                             : <View style={styles.results}>
                                 {
                                     bookings.length === 0
                                         ?
-                                            <View style={{ justifyContent: "center", alignItems: "center", padding: 20 }}>
-                                                <Text style={{ color: "#666", fontSize: 16 }}>No bookings </Text>
-                                            </View>
-                                        :   
-                                            bookings.map(booking => {
-                                                return <BookingCardWeek key={booking._id} booking={booking} navigation={navigation}  />
-                                            })             
+                                        <View style={{ justifyContent: "center", alignItems: "center", padding: 20 }}>
+                                            <Text style={{ color: "#666", fontSize: 16 }}>No bookings </Text>
+                                        </View>
+                                        :
+                                        bookings.map(booking => {
+                                            return <BookingCardWeek key={booking._id} booking={booking} navigation={navigation} />
+                                        })
                                 }
-                                   
+
                             </View>
                     }
                 </ScrollView>
-            </ScrollView>    
+            </ScrollView>
         </View>
-        
+
     );
 }
 
@@ -283,16 +281,16 @@ const styles = StyleSheet.create({
     },
     container: {
         // width: Dimensions.get('window').width,
-        flex:1,
-        marginLeft : 10,
-        marginRight:10,
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10,
         // backgroundColor : "#F8F9FD",
-       
+
         justifyContent: "center",
         // alignItems: "center"
     },
-    Calendar :{
-        borderRadius : 18,
+    Calendar: {
+        borderRadius: 18,
     },
     text: {
         fontSize: 56,
@@ -301,22 +299,22 @@ const styles = StyleSheet.create({
     },
     tabNavigation: {
         // width: "100%",
-        flex : 1,
+        flex: 1,
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
         // paddingHorizontal: 20,
         // padding:20,
-        paddingBottom : 0,
+        paddingBottom: 0,
         marginTop: 20,
-        marginLeft:20,
+        marginLeft: 20,
         marginBottom: 30,
-        backgroundColor : "#FFFFFF",
+        backgroundColor: "#FFFFFF",
 
     },
     tab: {
         // flex: 1,
-        
+
     },
     tabNavigationObject: {
         alignItems: "flex-start",
@@ -344,26 +342,26 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         // paddingHorizontal: 15,
     },
-    selectedDay : {
-    
+    selectedDay: {
+
         justifyContent: "flex-start",
-        alignItems: "flex-start",  
+        alignItems: "flex-start",
         paddingHorizontal: 20,
-        padding:20,
-        paddingBottom : 0,
+        padding: 20,
+        paddingBottom: 0,
         marginTop: 10,
         marginBottom: 30,
-        backgroundColor : "#FFFFFF",
+        backgroundColor: "#FFFFFF",
 
     },
-    ObjectSelectedDay:{
+    ObjectSelectedDay: {
         borderBottomWidth: 3,
         borderColor: "#0062FF",
         // alignItems: "center",
-        justifyContent : "flex-start",
-        alignItems : "flex-start",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
     },
-    TextSelectedDay : {
+    TextSelectedDay: {
         fontSize: 18,
         color: "#707070",
         borderBottomWidth: 1,

@@ -4,10 +4,10 @@ import { TouchableOpacity, ScrollView, TextInput } from 'react-native-gesture-ha
 import Modal from 'react-native-modalbox';
 
 // import Navbar from '../Header/Navbar'
-import StatusBarWhite from '../UXComponents/StatusBar'
-import SecondaryBackground from '../UXComponents/SecondaryBackground'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
+import SecondaryBackground from '../../components/UXComponents/SecondaryBackground'
 
-import {AuthContext} from '../context'
+import { AuthContext } from '../context'
 
 const Login = ({ navigation }) => {
     const [phone, setPhone] = useState()

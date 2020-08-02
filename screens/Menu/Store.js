@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, StatusBar, Dimensions,Image, Text,Alert, Keyboard,Button, KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { View, StyleSheet, StatusBar, Dimensions,Image, Text,Alert, KeyboardAvoidingView } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import { ScrollView, TouchableWithoutFeedback, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableWithoutFeedback,TouchableOpacity } from 'react-native-gesture-handler'
 import Svg, { Circle } from 'react-native-svg'
-import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
-import StatusBarWhite from '../UXComponents/StatusBar'
-import NavbarBackButton from '../Header/NavbarBackButton'
-import ProfileBackground from '../UXComponents/ProfileBackground'
-
-import StoreIcon from './Ellipse.svg'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
+import NavbarBackButton from '../../components/Header/NavbarBackButton'
+import StoreIcon from './svg/Ellipse.svg'
 
 const WINDOW_HEIGHT = Dimensions.get('window').height;
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('screen').height;
 
-const Store = ({ navigation }) => {
-
-    
+const Store = ({ navigation }) => {    
     const [loading, setLoading] = useState(true)
     const [storeData, setStoreData] = useState({})
     const [headerImage, setHeaderImage] = useState("")

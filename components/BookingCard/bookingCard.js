@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, Image, Dimensions, Alert } from 'react-native'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
-
+import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
-import AsyncStorage from '@react-native-community/async-storage'
-import Cancelled from './cancel.svg'
-import CheckCircle from './check_circle.svg'
-import Pending from './pending.svg'
-import ProfilePhoto from './Ellipse.svg'
+
+import Cancelled from './svg/cancel'
+import CheckCircle from './svg/check_circle'
+import Pending from './svg/pending'
+import ProfilePhoto from './svg/Ellipse'
+
+const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 const BookingCard = (props) => {
-    const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
     const [extended, setExtended] = useState(false)
-
-   
 
     return (
         <View style={styles.card}>
@@ -22,17 +19,17 @@ const BookingCard = (props) => {
                 <TouchableWithoutFeedback
                     style={styles.mainCard}
                 >
-                   
+
                     <View style={styles.imageContainer}>
                         {
                             props.booking.user.avatar ?
                                 <Image
                                     source={{
-                                    uri: `data:image/gif;base64,${props.booking.user.avatar}`
+                                        uri: `data:image/gif;base64,${props.booking.user.avatar}`
                                     }}
                                     style={styles.image}
                                 />
-                            :
+                                :
                                 // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
                                 <ProfilePhoto />
                         }
@@ -58,24 +55,24 @@ const BookingCard = (props) => {
                             </Text>
                         </View>
                     </View>
-                    <View>    
-                        <View style={styles.bookingStatusIcon}> 
+                    <View>
+                        <View style={styles.bookingStatusIcon}>
                             {
-                                props.booking.status === "upcoming" || props.booking.status === "missed" 
+                                props.booking.status === "upcoming" || props.booking.status === "missed"
                                     ?
-                                       <Pending />
+                                    <Pending />
                                     :
-                                        props.booking.status ==="completed" 
-                                            ?
-                                                <CheckCircle />
-                                            :
-                                                <Cancelled />    
-                                          
-                            }            
+                                    props.booking.status === "completed"
+                                        ?
+                                        <CheckCircle />
+                                        :
+                                        <Cancelled />
+
+                            }
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                
+
             </View>
 
         </View>
@@ -86,7 +83,7 @@ const styles = StyleSheet.create({
     card: {
         width: Dimensions.get("window").width - 40,
         marginBottom: 20,
-        paddingHorizontal:10
+        paddingHorizontal: 10
     },
     container: {
         flex: 1,
@@ -120,8 +117,8 @@ const styles = StyleSheet.create({
         width: 60,
         justifyContent: "center",
         alignItems: "center",
-    
-        
+
+
     },
     image: {
         width: 60,
@@ -133,30 +130,30 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: "space-between",
         alignItems: "flex-start",
-    
+
     },
     header: {
         fontSize: 18,
         color: "#000000"
     },
     time: {
-        marginTop : 5,
+        marginTop: 5,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center"
     },
     timeText: {
-        fontSize : 16,
+        fontSize: 16,
         color: "#666",
         marginLeft: 10,
     },
-    bookingStatusIcon : {
-        flex : 1,
+    bookingStatusIcon: {
+        flex: 1,
         padding: 20,
         justifyContent: "flex-end",
         alignItems: "center",
     },
-    
+
 })
 
 export default BookingCard;

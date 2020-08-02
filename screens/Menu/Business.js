@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, StatusBar, Dimensions,Image, Text,Alert, Keyboard, KeyboardAvoidingView, ToastAndroid } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
-import { ScrollView, TouchableWithoutFeedback, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import React, { useState } from 'react'
+import { View, StyleSheet, StatusBar, Dimensions, Text, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Svg, { Circle } from 'react-native-svg'
-import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
-import StatusBarWhite from '../UXComponents/StatusBar'
-import NavbarBackButton from '../Header/NavbarBackButton'
-import ProfileBackground from '../UXComponents/ProfileBackground'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
+import NavbarBackButton from '../../components/Header/NavbarBackButton'
 
 import StoreIcon from './Ellipse.svg'
-
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('screen').height;
 
 const Store = ({ navigation }) => {
-
-    
     const [loading, setLoading] = useState(true)
     const [storeData, setStoreData] = useState({})
     const [headerImage, setHeaderImage] = useState("")
@@ -60,7 +54,7 @@ const Store = ({ navigation }) => {
     //                 })
     //         })
     // }, [])
-   
+
 
 
     return (
@@ -80,7 +74,7 @@ const Store = ({ navigation }) => {
 
             <ScrollView
                 style={styles.container}
-            stickyHeaderIndices={[0]}
+                stickyHeaderIndices={[0]}
             >
                 <NavbarBackButton color="white" navigation={navigation} />
 
@@ -91,19 +85,19 @@ const Store = ({ navigation }) => {
                                 // headerImage ?
                                 //     <Image source={{ uri: `data:image/gif;base64,${headerImage}`}} style={styles.avatar} />
                                 //     :
-                                   <StoreIcon/>
+                                <StoreIcon />
                             }
-                            
+
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.contentContainer}>
                     <View style={styles.tabNavigation}>
-                        
+
                         <View style={styles.tab}>
                             <TouchableWithoutFeedback style={styles.tabNavigationObject}
-                            onPress={() => {
+                                onPress={() => {
                                     navigation.navigate("Store")
                                 }}
                             >
@@ -115,36 +109,36 @@ const Store = ({ navigation }) => {
                                 <Text style={styles.tabNavigationTextSelected}>Business Info</Text>
                             </TouchableWithoutFeedback>
                         </View>
-                        
+
                     </View>
-                    <View style = {styles.businessdescription}>
+                    <View style={styles.businessdescription}>
                         <Text style={styles.subheading}>
                             Store ID
                         </Text>
-                        <View  style={styles.value}>
+                        <View style={styles.value}>
                             <Text>
-                                1234567890                           
+                                1234567890
                             </Text>
                         </View>
                     </View>
-                    <View style = {styles.businessdescription}>
+                    <View style={styles.businessdescription}>
                         <Text style={styles.subheading}>
                             Contact Number
                         </Text>
-                        <View  style={styles.value}>
+                        <View style={styles.value}>
                             <Text>
-                                +91 9876543210                            
+                                +91 9876543210
                             </Text>
                         </View>
                     </View>
-                    <View style = {styles.businessdescription}>
+                    <View style={styles.businessdescription}>
                         <Text style={styles.subheading}>
                             Address
                         </Text>
-                        <View  style={styles.value}>
+                        <View style={styles.value}>
                             <Text>
-                            Kenilworth Mall, Linking Road, Bandra West,
-                            Mumbai, Maharashtra 400050                            
+                                Kenilworth Mall, Linking Road, Bandra West,
+                                Mumbai, Maharashtra 400050
                             </Text>
                         </View>
                     </View>
@@ -184,7 +178,7 @@ const styles = StyleSheet.create({
         width: 133,
         borderRadius: 140 / 2,
         padding: 20,
-        marginTop : 0,
+        marginTop: 0,
         marginBottom: 0,
         backgroundColor: "#FFFFFF2F",
         justifyContent: "center",
@@ -198,7 +192,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    
+
     avatar: {
         width: undefined,
         height: undefined,
@@ -215,7 +209,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     tab: {
-        flex : 1,
+        flex: 1,
     },
     tabNavigationObject: {
         alignItems: "center",
@@ -243,29 +237,29 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingHorizontal: 15,
     },
-    
+
     subheading: {
         // marginLeft: 10,
         fontSize: 14,
-        color : "#6666666F"
+        color: "#6666666F"
     },
-    value : {
+    value: {
         // marginLeft : 10,
-        marginTop : 10,
+        marginTop: 10,
         fontSize: 16,
-        color : "#6666666F",
-        paddingRight : 20,
-        
-        
-        
+        color: "#6666666F",
+        paddingRight: 20,
+
+
+
     },
-    businessdescription : {
-        borderBottomWidth : 1,
-        borderBottomColor : "#E5E5E5",       
+    businessdescription: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#E5E5E5",
         backgroundColor: "#FFF",
-        paddingBottom:20,
+        paddingBottom: 20,
         marginBottom: 20
-   
+
     },
     buttonArea: {
         flex: 1,
@@ -273,8 +267,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         // width: "10%",
         marginBottom: 55,
-        marginTop:20,
-        
+        marginTop: 20,
+
     },
     defaultButton: {
         width: Dimensions.get("window").width - 186,
@@ -290,7 +284,7 @@ const styles = StyleSheet.create({
         // textTransform: "uppercase",
         // fontWeight: "bold"
     },
-    
+
 })
 
 export default Store;

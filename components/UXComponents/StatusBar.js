@@ -1,7 +1,7 @@
 import React from 'react'
-import { StatusBar, StyleSheet } from 'react-native'
+import { StatusBar } from 'react-native'
 
-const StatusBarWhite = () => {
+export default StatusBarWhite = () => {
     return (
         <StatusBar
             barStyle="dark-content"
@@ -12,10 +12,3 @@ const StatusBarWhite = () => {
         />
     )
 }
-
-const styles = StyleSheet.create({
-    statusBar: {
-    }
-})
-
-export default StatusBarWhite;

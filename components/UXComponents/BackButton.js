@@ -1,11 +1,4 @@
 import React from 'react'
+import LeftArrow from './svg/left-arrow.svg'
 
-import LeftArrow from './left-arrow.svg'
-
-
-const BackButton = () => {
-    return (
-        <LeftArrow/>
-    )
-}
-export default BackButton;
+export default BackButton = () => <LeftArrow />

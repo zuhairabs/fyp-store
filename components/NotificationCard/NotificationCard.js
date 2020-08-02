@@ -1,10 +1,10 @@
 import React from 'react'
-import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import ProfilePhoto from './Ellipse.svg'
+import { Text, View, StyleSheet, Image } from 'react-native'
 
-const NotificationCard = ({notification}) => {
-    
+import ProfilePhoto from './svg/Ellipse.svg'
+
+const NotificationCard = ({ notification }) => {
+
     return (
         <>
             {
@@ -12,15 +12,15 @@ const NotificationCard = ({notification}) => {
                     ? <View style={styles.container}>
                         <View style={styles.imageContainer}>
                             {
-                               notification.user && notification.user.avatar 
-                                ?
+                                notification.user && notification.user.avatar
+                                    ?
                                     <Image
                                         source={{
-                                        uri: `data:image/gif;base64,${notification.user.avatar}`
+                                            uri: `data:image/gif;base64,${notification.user.avatar}`
                                         }}
                                         style={styles.image}
                                     />
-                                :
+                                    :
                                     // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
                                     <ProfilePhoto />
                             }
@@ -31,8 +31,8 @@ const NotificationCard = ({notification}) => {
                                 {/* Novato booked an appointment */}
                             </Text>
                             <Text style={styles.date}>
-                                {new Date(notification.generatedTime).toLocaleDateString("en-GB",{year:"2-digit",month:"2-digit", day:"2-digit"})}
-                              
+                                {new Date(notification.generatedTime).toLocaleDateString("en-GB", { year: "2-digit", month: "2-digit", day: "2-digit" })}
+
                             </Text>
                         </View>
                     </View>
@@ -40,18 +40,18 @@ const NotificationCard = ({notification}) => {
                     <View style={styles.containerUnread}>
                         <View style={styles.imageContainer}>
                             {
-                                 
+
                                 notification.user && notification.user.avatar ?
                                     <Image
                                         source={{
-                                        uri: `data:image/gif;base64,${notification.user.avatar}`
+                                            uri: `data:image/gif;base64,${notification.user.avatar}`
                                         }}
                                         style={styles.image}
                                     />
-                                :
+                                    :
                                     // <Icon name="person" size={60} color="#0062FF"  style={styles.image}/>
                                     <ProfilePhoto />
-                                
+
                             }
                         </View>
                         <View style={styles.contentContainer}>
@@ -60,7 +60,7 @@ const NotificationCard = ({notification}) => {
                                 {/* Novato booked an appointment */}
                             </Text>
                             <Text style={styles.date}>
-                               {new Date(notification.generatedTime).toLocaleDateString("en-GB",{year:"2-digit",month:"2-digit", day:"2-digit"})}
+                                {new Date(notification.generatedTime).toLocaleDateString("en-GB", { year: "2-digit", month: "2-digit", day: "2-digit" })}
                                 {/* 5 Mins ago */}
                             </Text>
                         </View>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 10,
         color: "#666",
-        marginTop:10
+        marginTop: 10
     }
 })
 

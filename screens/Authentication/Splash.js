@@ -1,15 +1,15 @@
 import React from 'react'
-import {View, StatusBar,Dimensions,StyleSheet} from 'react-native'
+import { View, StatusBar, Dimensions, StyleSheet } from 'react-native'
 
-import ShopOutLogo from './shopout.svg'
+import ShopOutLogo from './svg/shopout.svg'
 
-const Splash = ({navigation}) =>{
+const Splash = ({ navigation }) => {
     return (
         <View style={Styles.screenContainer}>
             <View style={Styles.container}>
                 <ShopOutLogo />
             </View>
-        </View> 
+        </View>
     );
 }
 
@@ -21,7 +21,7 @@ const Styles = StyleSheet.create({
         alignItems: "center",
     },
     container: {
-        width: Dimensions.get('window').width/1.5,
+        width: Dimensions.get('window').width / 1.5,
         justifyContent: "center",
         alignItems: "center"
     },

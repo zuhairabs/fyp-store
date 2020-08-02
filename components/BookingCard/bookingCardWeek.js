@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, Image, Dimensions, Alert } from 'react-native'
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
-import AsyncStorage from '@react-native-community/async-storage'
 import Cancelled from './cancel.svg'
 import CheckCircle from './check_circle.svg'
 import Pending from './pending.svg'
 import ProfilePhoto from './Ellipse.svg'
 
+const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const BookingCardWeek = (props) => {
-    const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
     const [extended, setExtended] = useState(false)
-
-   
 
     return (
         <View style={styles.card}>
@@ -30,17 +26,17 @@ const BookingCardWeek = (props) => {
                             {mlist[new Date(props.booking.start).getUTCMonth()]}
                         </Text>
                     </View>
-                   
+
                     <View style={styles.imageContainer}>
                         {
                             props.booking.user.avatar ?
                                 <Image
                                     source={{
-                                    uri: `data:image/gif;base64,${props.booking.user.avatar}`
+                                        uri: `data:image/gif;base64,${props.booking.user.avatar}`
                                     }}
                                     style={styles.image}
                                 />
-                            :
+                                :
                                 <ProfilePhoto />
                         }
 
@@ -65,24 +61,24 @@ const BookingCardWeek = (props) => {
                             </Text>
                         </View>
                     </View>
-                    <View>    
-                        <View style={styles.bookingStatusIcon}> 
+                    <View>
+                        <View style={styles.bookingStatusIcon}>
                             {
-                                props.booking.status === "upcoming" || props.booking.status === "missed" 
+                                props.booking.status === "upcoming" || props.booking.status === "missed"
                                     ?
-                                       <Pending />
+                                    <Pending />
                                     :
-                                        props.booking.status ==="completed" 
-                                            ?
-                                                <CheckCircle />
-                                            :
-                                                <Cancelled />    
-                                          
-                            }            
+                                    props.booking.status === "completed"
+                                        ?
+                                        <CheckCircle />
+                                        :
+                                        <Cancelled />
+
+                            }
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                
+
             </View>
 
         </View>
@@ -140,24 +136,25 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 18,
-        color: "#000000"    },
+        color: "#000000"
+    },
     time: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        marginTop : 5
+        marginTop: 5
     },
     timeText: {
         color: "#666",
         marginLeft: 10,
     },
-    bookingStatusIcon : {
-        flex : 1,
+    bookingStatusIcon: {
+        flex: 1,
         padding: 20,
         justifyContent: "center",
         alignItems: "center",
     },
-    
+
 })
 
 export default BookingCardWeek;

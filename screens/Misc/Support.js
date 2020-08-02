@@ -1,9 +1,9 @@
 import React, { useState, createRef } from 'react'
 import { View, StyleSheet, StatusBar, Dimensions, Text, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import { TextInput, ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 
-import StatusBarWhite from '../UXComponents/StatusBar'
+import StatusBarWhite from '../../components/UXComponents/StatusBar'
 
 const Support = ({ navigation }) => {
 

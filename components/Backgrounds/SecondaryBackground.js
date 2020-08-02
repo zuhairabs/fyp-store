@@ -1,8 +1,6 @@
 import React from 'react'
-import { StyleSheet, Dimensions, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg'
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const MainBackground = () => {
     return (

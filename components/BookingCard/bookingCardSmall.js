@@ -4,8 +4,8 @@ import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture
 
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
+const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const BookingCardSmall = (props) => {
-    const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     const [extended, setExtended] = useState(false)
 
