@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, StatusBar, Dimensions, Image, Alert } from 'rea
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { AuthContext } from '../context'
+import { AuthContext } from '../../App'
 
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
 import MenuBackground from '../../components/Backgrounds/MenuBackground'
 
-import StoreIcon from './Ellipse.svg'
+import StoreIcon from './svg/Ellipse.svg'
 
 const Profile = ({ navigation }) => {
 

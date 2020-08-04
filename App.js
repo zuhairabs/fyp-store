@@ -7,34 +7,32 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 const Stack = createStackNavigator();
 
-import * as StorageService from './storageService'
+// import * as StorageService from './storageService'
 
 import Login from './screens/Authentication/Login';
 import SignUp from './screens/Authentication/SignUp';
 import Splash from './screens/Authentication/Splash';
 
-import Home from './components/screens/Home';
-import TomorrowBookings from './components/screens/TomorrowBookings';
-import WeekBookings from './components/screens/WeekBookings';
+import Home from './screens/Home/Home';
+import TomorrowBookings from './screens/Home/TomorrowBookings';
+import WeekBookings from './screens/Home/WeekBookings';
 
-import NotificationsFull from './components/screens/NotificationsFull';
+import NotificationsFull from './screens/Notifications/NotificationsFull';
 
-import Profile from './components/screens/Profile'
-import Store from './components/screens/Store';
-import Business from './components/screens/Business';
-import Support from './components/screens/Support';
+import Profile from './screens/Menu/Profile'
+import Store from './screens/Menu/Store';
+import Business from './screens/Menu/Business';
+import Support from './screens/Misc/Support';
 
-import QrScanner from './components/screens/QrScanner';
+import QrScanner from './screens/QRScanner/QrScanner';
 import BackButton from './components/UXComponents/BackButton';
 
-import NotificationIcon from './notifications.svg'
-import QrCodeIcon from './qr_code.svg'
-import MenuIcon from './menu.svg'
-
+import NotificationIcon from './styles/public/res/svg/notifications.svg'
+import QrCodeIcon from './styles/public/res/svg/qr_code.svg'
+import MenuIcon from './styles/public/res/svg/menu.svg'
 
 const App = () => {
   // console.disableYellowBox = true;

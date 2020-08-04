@@ -24,11 +24,6 @@ const Styles = StyleSheet.create({
         width: Dimensions.get('window').width / 1.5,
         justifyContent: "center",
         alignItems: "center"
-    },
-    text: {
-        fontSize: 56,
-        fontWeight: "bold",
-        color: "#0062FF"
     }
 })
 

@@ -5,9 +5,9 @@ import Modal from 'react-native-modalbox';
 
 // import Navbar from '../Header/Navbar'
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
-import SecondaryBackground from '../../components/UXComponents/SecondaryBackground'
+import SecondaryBackground from '../../components/Backgrounds/SecondaryBackground'
 
-import { AuthContext } from '../context'
+import { AuthContext } from '../../App'
 
 const Login = ({ navigation }) => {
     const [phone, setPhone] = useState()

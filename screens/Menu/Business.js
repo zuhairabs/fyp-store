@@ -6,7 +6,7 @@ import Svg, { Circle } from 'react-native-svg'
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
 import NavbarBackButton from '../../components/Header/NavbarBackButton'
 
-import StoreIcon from './Ellipse.svg'
+import StoreIcon from './svg/Ellipse.svg'
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const DEVICE_HEIGHT = Dimensions.get('screen').height;

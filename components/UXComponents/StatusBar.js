@@ -8,7 +8,6 @@ export default StatusBarWhite = () => {
             backgroundColor="#fff00000"
             animated={true}
             translucent
-            style={styles.StatusBar}
         />
     )
 }

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Text, View, StyleSheet, Image, Dimensions } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
-import Cancelled from './cancel.svg'
-import CheckCircle from './check_circle.svg'
-import Pending from './pending.svg'
-import ProfilePhoto from './Ellipse.svg'
+
+import Cancelled from './svg/cancel.svg'
+import CheckCircle from './svg/check_circle.svg'
+import Pending from './svg/pending.svg'
+import ProfilePhoto from './svg/Ellipse.svg'
 
 const mlist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const BookingCardWeek = (props) => {
