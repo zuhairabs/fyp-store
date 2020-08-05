@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
-import { View, Text, StyleSheet, Dimensions, Platform, StatusBar, Alert, PermissionsAndroid, KeyboardAvoidingView } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, Platform, StatusBar, Alert, KeyboardAvoidingView } from 'react-native'
 import { TouchableOpacity, ScrollView, TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/dist/MaterialIcons'
 
-// import Navbar from '../Header/Navbar'
+import { GlobalContext } from '../../providers/GlobalContext'
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
 import SecondaryBackground from '../../components/Backgrounds/SecondaryBackground'
 
-import { AuthContext } from '../../App'
-
 const SignUp = ({ navigation }) => {
+    const { authActions } = useContext(GlobalContext);
+
     const [phone, setPhone] = useState()
     const [password, setPassword] = useState("")
     const [cnfPassword, setCnfPassword] = useState("")
@@ -17,12 +17,9 @@ const SignUp = ({ navigation }) => {
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
 
-    const { signUp } = React.useContext(AuthContext);
-
-
     const handleSubmit = () => {
         if (validateForm())
-            signUp({ phone, password, firstName, lastName, email });
+            authActions.signUp({ phone, password, firstName, lastName, email });
     }
 
     const validateForm = () => {
@@ -62,10 +59,7 @@ const SignUp = ({ navigation }) => {
             <SecondaryBackground />
 
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
-                <ScrollView style={styles.container}
-                // stickyHeaderIndices={[0]}
-                >
-                    {/* <Navbar type="locked" /> */}
+                <ScrollView style={styles.container}>
                     <View style={styles.contentContainer} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}>
                         <View style={styles.tabNavigation}>
                             <TouchableOpacity style={styles.tabNavigationObject} onPress={() => { navigation.navigate("Login") }}>
@@ -153,12 +147,8 @@ const SignUp = ({ navigation }) => {
 const styles = StyleSheet.create({
     screenContainer: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        // backgroundColor: "#F8F9FD",
         backgroundColor: "#FFF",
         height: Dimensions.get('screen').height,
-    },
-    container: {
-
     },
     contentContainer: {
         justifyContent: "center",

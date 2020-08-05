@@ -3,24 +3,23 @@ import { View, Text, StyleSheet, Dimensions, Platform, StatusBar, Alert, Linking
 import { TouchableOpacity, ScrollView, TextInput } from 'react-native-gesture-handler'
 import Modal from 'react-native-modalbox';
 
-// import Navbar from '../Header/Navbar'
+import { GlobalContext } from '../../providers/GlobalContext'
+
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
 import SecondaryBackground from '../../components/Backgrounds/SecondaryBackground'
 
-import { AuthContext } from '../../App'
-
 const Login = ({ navigation }) => {
+    const { authActions } = useContext(GlobalContext);
+
+    const phoneInput = createRef();
+    const passwordInput = createRef();
+
     const [phone, setPhone] = useState()
     const [password, setPassword] = useState("")
 
     const [error, setError] = useState("Unknown error")
     const loadingModal = createRef();
     const errorModal = createRef();
-
-    const { signIn } = useContext(AuthContext);
-
-    const phoneInput = createRef();
-    const passwordInput = createRef();
 
     const validatePhone = () => {
         if (phone) {
@@ -34,7 +33,7 @@ const Login = ({ navigation }) => {
     const handleSubmit = async () => {
         if (validatePhone()) {
             loadingModal.current.open();
-            let res = await signIn({ phone: phone, password: password });
+            let res = await authActions.signIn({ phone: phone, password: password });
             if (res[0] === false) {
                 loadingModal.current.close();
                 setError(res[1]);

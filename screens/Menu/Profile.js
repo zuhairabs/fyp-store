@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, Text, StyleSheet, StatusBar, Dimensions, Image, Alert } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage'
 
-import { AuthContext } from '../../App'
+import { GlobalContext } from '../../providers/GlobalContext'
 
 import StatusBarWhite from '../../components/UXComponents/StatusBar'
 import MenuBackground from '../../components/Backgrounds/MenuBackground'
@@ -11,9 +11,7 @@ import MenuBackground from '../../components/Backgrounds/MenuBackground'
 import StoreIcon from './svg/Ellipse.svg'
 
 const Profile = ({ navigation }) => {
-
-    const { signOut } = React.useContext(AuthContext);
-
+    const { authActions } = useContext(GlobalContext);
     const [user, setUser] = useState({})
 
     useEffect(() => {
@@ -26,7 +24,6 @@ const Profile = ({ navigation }) => {
                 setUser(storedUser);
             })
     }, [])
-
 
     return (
         <View style={styles.screenContainer}>
@@ -50,7 +47,6 @@ const Profile = ({ navigation }) => {
                         <View style={styles.details}>
                             <Text style={styles.name}>{user.name}</Text>
                             <Text style={styles.name}>{user.location_desc},{user.city}</Text>
-                            {/* <Text style={styles.number}>+91 {user.phone}</Text> */}
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
@@ -92,7 +88,7 @@ const Profile = ({ navigation }) => {
                                         },
                                         {
                                             text: "YES",
-                                            onPress: () => { signOut() },
+                                            onPress: () => { authActions.signOut() },
                                             style: "default"
                                         }
                                     ]
