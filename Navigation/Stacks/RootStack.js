@@ -5,8 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 import Home from '../../screens/Home/Home';
-import TomorrowBookings from '../../screens/Home/TomorrowBookings';
-import WeekBookings from '../../screens/Home/WeekBookings';
 import NotificationsFull from '../../screens/Notifications/NotificationsFull';
 import Profile from '../../screens/Menu/Profile';
 import Support from '../../screens/Misc/Support';
@@ -39,27 +37,6 @@ export default () => (
     <Stack.Screen
       name="Home"
       component={Home}
-      options={{
-        title: 'Schedule',
-        headerLeft: Hamburger,
-        headerRight: RightMenuIcons,
-        ...HEADER_OPTIONS,
-      }}
-    />
-    <Stack.Screen
-      name="TomorrowBookings"
-      component={TomorrowBookings}
-      options={{
-        title: 'Schedule',
-        headerShown: true,
-        headerLeft: Hamburger,
-        headerRight: RightMenuIcons,
-        ...HEADER_OPTIONS,
-      }}
-    />
-    <Stack.Screen
-      name="WeekBookings"
-      component={WeekBookings}
       options={{
         title: 'Schedule',
         headerLeft: Hamburger,
