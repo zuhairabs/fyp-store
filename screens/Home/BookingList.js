@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native-gesture-handler';
-import BookingCard from '../../components/BookingCard/bookingCard';
+import BookingCard from '../../components/BookingCard/BookingCard';
 
 export default ({tabData, changeTab, bookings, selectedTab, loading}) => {
   const getPendingBookings = () => {
@@ -64,7 +64,7 @@ export default ({tabData, changeTab, bookings, selectedTab, loading}) => {
                   </View>
                   <View style={styles.detailItem}>
                     <Text style={styles.subheading}>Completed: </Text>
-                    <Text style={styles.paragraph}>{bookings.length}</Text>
+                    <Text style={styles.paragraph}>0</Text>
                   </View>
                   <View style={styles.detailItem}>
                     <Text style={styles.subheading}>Pending: </Text>

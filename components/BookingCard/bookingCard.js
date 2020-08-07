@@ -3,11 +3,11 @@ import {Text, View, StyleSheet, Image, Dimensions} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 
-import Cancelled from './svg/cancel';
-import CheckCircle from './svg/check_circle';
-import Pending from './svg/pending';
+import Cancelled from './svg/cancel.svg';
+import CheckCircle from './svg/check_circle.svg';
+import Pending from './svg/pending.svg';
 
-const mlist = [
+const monthList = [
   'January',
   'February',
   'March',
@@ -22,18 +22,38 @@ const mlist = [
   'December',
 ];
 
-const BookingCard = (props) => {
-  const [extended, setExtended] = useState(false);
+const formatDate = (date) => {
+  return new Date(date)
+    .toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    })
+    .replace(/(:\d{2}| [AP]M)$/, '');
+};
+
+export default ({booking}) => {
+  const start = formatDate(booking.start);
+  const end = formatDate(booking.end);
 
   return (
     <View style={styles.card}>
       <View style={styles.container}>
         <TouchableWithoutFeedback style={styles.mainCard}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.date}>
+              {new Date(booking.start).getUTCDate()}
+            </Text>
+            <Text style={styles.date}>
+              {monthList[new Date(booking.start).getUTCMonth()]}
+            </Text>
+          </View>
+
           <View style={styles.imageContainer}>
-            {props.booking.user.avatar ? (
+            {booking.user.avatar ? (
               <Image
                 source={{
-                  uri: `data:image/gif;base64,${props.booking.user.avatar}`,
+                  uri: `data:image/gif;base64,${booking.user.avatar}`,
                 }}
                 style={styles.image}
               />
@@ -48,36 +68,37 @@ const BookingCard = (props) => {
           </View>
           <View style={styles.details}>
             <Text style={styles.header} numberOfLines={1}>
-              {props.booking.user.firstName} {props.booking.user.lastName}
+              {booking.user.firstName} {booking.user.lastName}
             </Text>
 
             <View style={styles.time}>
               <Icon name="access-time" size={20} color="#666" />
               <Text style={styles.timeText}>
-                {new Date(props.booking.start)
-                  .toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  })
-                  .replace(/(:\d{2}| [AP]M)$/, '')}{' '}
-                -{' '}
-                {new Date(props.booking.end)
-                  .toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  })
-                  .replace(/(:\d{2}| [AP]M)$/, '')}
+                {start} - {end}
               </Text>
             </View>
+            <View style={styles.time}>
+              <Icon name="person" size={20} color="#666" />
+              <Text style={styles.timeText}>{booking.visitors}</Text>
+            </View>
+            {booking.assistance && (
+              <View style={styles.time}>
+                <Icon name="check" size={20} color="#666" />
+                <Text style={styles.timeText}>Need assistance</Text>
+              </View>
+            )}
+            {booking.type === 'virtual' && (
+              <View style={styles.time}>
+                <Icon name="videocam" size={20} color="#666" />
+                <Text style={styles.timeText}>Virtual</Text>
+              </View>
+            )}
           </View>
           <View>
             <View style={styles.bookingStatusIcon}>
-              {props.booking.status === 'upcoming' ||
-              props.booking.status === 'missed' ? (
+              {booking.status === 'upcoming' || booking.status === 'missed' ? (
                 <Pending />
-              ) : props.booking.status === 'completed' ? (
+              ) : booking.status === 'completed' ? (
                 <CheckCircle />
               ) : (
                 <Cancelled />
@@ -97,9 +118,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    borderRadius: 8,
-    backgroundColor: '#FFFFFF',
-    elevation: 3,
+    borderRadius: 15,
+    backgroundColor: '#fff',
+    elevation: 10,
     zIndex: 0,
   },
   mainCard: {
@@ -116,8 +137,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRightWidth: 1,
     borderColor: '#7070702F',
+    padding: 8,
   },
   date: {
+    fontSize: 12,
     color: '#666',
   },
   imageContainer: {
@@ -131,7 +154,7 @@ const styles = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    borderRadius: 70 / 2,
+    borderRadius: 60 / 2,
   },
   details: {
     flex: 5,
@@ -140,26 +163,23 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   header: {
-    fontSize: 18,
-    color: '#000000',
+    color: '#000',
   },
   time: {
-    marginTop: 5,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop: 5,
   },
   timeText: {
-    fontSize: 16,
     color: '#666',
-    marginLeft: 10,
+    marginLeft: 8,
+    fontSize: 12,
   },
   bookingStatusIcon: {
     flex: 1,
     padding: 20,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });
-
-export default BookingCard;
