@@ -1,6 +1,5 @@
 import React, {createContext, useReducer, useMemo} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-
 export const GlobalContext = createContext();
 
 export const GlobalContextProvider = (props) => {
@@ -98,46 +97,6 @@ export const GlobalContextProvider = (props) => {
       },
 
       signOut: () => dispatch({type: 'SIGN_OUT'}),
-      signUp: async (userData) => {
-        const requestOptions = {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            userData: {
-              firstName: userData.firstName,
-              lastName: userData.lastName,
-              phone: userData.phone,
-              password: userData.password,
-              email: userData.email,
-            },
-          }),
-        };
-
-        try {
-          fetch(
-            'https://shopout.herokuapp.com/store/signup',
-            requestOptions,
-          ).then((response) => {
-            if (response.status === 200) {
-              response.json().then((data) => {
-                AsyncStorage.setItem('jwt', data.token.toString());
-                AsyncStorage.setItem('user', JSON.stringify(data.user));
-                dispatch({
-                  type: 'SIGN_IN',
-                  token: data.token.toString(),
-                  user: data.user,
-                });
-              });
-            } else {
-              if (response.status === 500) Alert.alert('Internal Server Error');
-              else if (response.status === 404) Alert.alert('Try logging in');
-              else Alert.alert('Unknown server error');
-            }
-          });
-        } catch (e) {
-          Alert.alert('Something went wrong');
-        }
-      },
     }),
     [],
   );
@@ -148,10 +107,3 @@ export const GlobalContextProvider = (props) => {
     </GlobalContext.Provider>
   );
 };
-
-// consumer as a higher order component
-export const withGlobalContext = (ChildComponent) => (props) => (
-  <GlobalContext.Consumer>
-    {(context) => <ChildComponent {...props} global={context} />}
-  </GlobalContext.Consumer>
-);

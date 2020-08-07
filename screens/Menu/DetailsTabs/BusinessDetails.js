@@ -27,7 +27,7 @@ export default ({switchTab}) => {
             onPress={() => {
               switchTab('store');
             }}>
-            <Text style={styles.tabNavigationText}>Store</Text>
+            <Text style={styles.tabNavigationText}>Store Details</Text>
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.tab}>
@@ -53,7 +53,7 @@ export default ({switchTab}) => {
       <View style={styles.businessdescription}>
         <Text style={styles.subheading}>Email</Text>
         <View style={styles.value}>
-          <Text>{storeData.business.email}</Text>
+          <Text>{storeData.business ? storeData.business.email : null}</Text>
         </View>
       </View>
       <View style={styles.businessdescription}>

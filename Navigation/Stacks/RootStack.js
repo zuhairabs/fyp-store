@@ -1,7 +1,10 @@
 import React from 'react';
 import {Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 import Home from '../../screens/Home/Home';
@@ -24,16 +27,20 @@ const HEADER_OPTIONS = {
     padding: 20,
   },
   headerTitleStyle: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: 'normal',
   },
 };
 
+const SCREEN_OPTIONS = {
+  headerShown: false,
+  gestureEnabled: true,
+  gestureDirection: 'horizontal',
+  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+};
+
 export default () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
+  <Stack.Navigator screenOptions={SCREEN_OPTIONS}>
     <Stack.Screen
       name="Home"
       component={Home}
@@ -44,8 +51,20 @@ export default () => (
         ...HEADER_OPTIONS,
       }}
     />
-    <Stack.Screen name="Profile" component={Profile} />
-    <Stack.Screen name="Details" component={Details} />
+    <Stack.Screen
+      name="Profile"
+      options={{
+        gestureDirection: 'horizontal-inverted',
+      }}
+      component={Profile}
+    />
+    <Stack.Screen
+      name="Details"
+      options={{
+        gestureDirection: 'horizontal-inverted',
+      }}
+      component={Details}
+    />
     <Stack.Screen
       name="Support"
       component={Support}
@@ -73,16 +92,6 @@ export default () => (
         ),
       }}
     />
-    <Stack.Screen
-      name="QrScanner"
-      component={QrScanner}
-      options={{
-        title: 'QrScanner',
-        ...HEADER_OPTIONS,
-        headerBackImage: () => {
-          return <BackButton />;
-        },
-      }}
-    />
+    <Stack.Screen name="QrScanner" component={QrScanner} />
   </Stack.Navigator>
 );

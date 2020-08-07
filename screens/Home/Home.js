@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, StatusBar, Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import StatusBarWhite from '../../components/UXComponents/StatusBar';
 import DefaultCalendar from './Calendar';
 import BookingList from './BookingList';
+import {GlobalContext} from '../../providers/GlobalContext';
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
@@ -30,7 +31,9 @@ const defaultTabData = [
   },
 ];
 
-export default ({navigation}) => {
+export default () => {
+  const {state} = useContext(GlobalContext);
+
   const [tabData, setTabData] = useState(defaultTabData);
   const [selectedTab, setSelectedTab] = useState(0);
   const [dateRange, setDateRange] = useState([today, today]);
@@ -38,97 +41,84 @@ export default ({navigation}) => {
   const [loading, setLoading] = useState(true);
 
   const changeTab = (index) => {
-    setSelectedTab(index);
-    let title = tabData[index].title;
-    switch (title) {
-      case 'today':
-        setDateRange([today, today]);
-        return;
-      case 'tomorrow':
-        setDateRange([today.addDays(1), today.addDays(1)]);
-        return;
-      case 'this week':
-        setDateRange([today, today.addDays(7)]);
-        return;
+    if (index !== selectedTab) {
+      setLoading(true);
+      setSelectedTab(index);
+      let title = tabData[index].title;
+      switch (title) {
+        case 'today':
+          setDateRange([today, today]);
+          return;
+        case 'tomorrow':
+          setDateRange([today.addDays(1), today.addDays(1)]);
+          return;
+        case 'this week':
+          setDateRange([today, today.addDays(7)]);
+          return;
+      }
     }
   };
 
   const selectDateFromCalendar = (day) => {
     const date = new Date(day);
-    setDateRange([date, date]);
-    if (date.getUTCDate() === today.getUTCDate()) {
-      setTabData(defaultTabData);
-      setSelectedTab(0);
-    } else if (date.getUTCDate() === today.addDays(1).getUTCDate()) {
-      setTabData(defaultTabData);
-      setSelectedTab(1);
-    } else {
-      setTabData([
-        {
-          title: date.toDateString(),
-          date: date,
-        },
-      ]);
-      setSelectedTab(0);
+    const newDateRange = [date, date];
+    if (newDateRange !== dateRange) {
+      setLoading(true);
+      setDateRange(newDateRange);
+      if (date.getUTCDate() === today.getUTCDate()) {
+        setTabData(defaultTabData);
+        setSelectedTab(0);
+      } else if (date.getUTCDate() === today.addDays(1).getUTCDate()) {
+        setTabData(defaultTabData);
+        setSelectedTab(1);
+      } else {
+        setTabData([
+          {
+            title: date.toDateString(),
+            date: date,
+          },
+        ]);
+        setSelectedTab(0);
+      }
     }
   };
 
-  const fetchBookings = (day = new Date()) => {
-    const bootstrapper = async () => {
-      let user = JSON.parse(await AsyncStorage.getItem('user'));
-      let token = await AsyncStorage.getItem('jwt');
-      return {user, token};
-    };
-    bootstrapper().then(({user, token}) => {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: 'Bearer ' + token,
+  const fetchBookings = () => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Bearer ' + state.token,
+      },
+      body: JSON.stringify({
+        cred: {
+          phone: state.user.phone,
         },
-        body: JSON.stringify({
-          cred: {
-            phone: user.phone,
-          },
-          date: {
-            day: day.day,
-            month: day.month,
-            year: day.year,
-          },
-        }),
-      };
-      fetch(
-        'https://safeqstore.herokuapp.com/store/bookings',
-        requestOptions,
-      ).then((res) => {
-        if (res.status === 200)
-          res.json().then((data) => {
-            setBookings(data.bookings);
-            setLoading(false);
-          });
-        else {
-          Alert.alert('Something went wrong ', res.statusText);
-        }
-      });
+        start: dateRange[0],
+        end: dateRange[1],
+      }),
+    };
+    fetch(
+      'https://shopout.herokuapp.com/store/bookings/range',
+      requestOptions,
+    ).then((res) => {
+      if (res.status === 200)
+        res.json().then((data) => {
+          setBookings(data.bookings);
+          setLoading(false);
+        });
+      else {
+        Alert.alert('Something went wrong ', res.statusText);
+      }
     });
   };
 
   useEffect(() => {
-    const date = new Date();
-    const day = {
-      day: date.getDate(),
-      month: date.getUTCMonth() + 1,
-      year: date.getUTCFullYear(),
-    };
-    fetchBookings(day);
-  }, []);
+    fetchBookings();
+  }, [dateRange]);
 
   return (
-    <View
-      style={{
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        backgroundColor: '#FFF',
-      }}>
+    <View style={{backgroundColor: '#FFF'}}>
       <StatusBarWhite />
       <ScrollView>
         <DefaultCalendar

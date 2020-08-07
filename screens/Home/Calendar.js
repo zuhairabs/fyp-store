@@ -1,12 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Calendar} from 'react-native-calendars';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
   return date;
 };
+
+import {
+  monthNames,
+  monthNamesShort,
+  dayNames,
+  dayNamesShort,
+} from './CalendarConfig';
+
+LocaleConfig.locales['en'] = {
+  monthNames,
+  monthNamesShort,
+  dayNames,
+  dayNamesShort,
+  today: 'Today',
+};
+LocaleConfig.defaultLocale = 'en';
 
 const selectedDayProps = {
   selected: true,
@@ -52,7 +68,7 @@ export default ({setDateRange, dateRange}) => {
         minDate={new Date().addDays(-2)}
         maxDate={new Date().addDays(31)}
         monthFormat={'MMMM yyyy'}
-        hideExtraDays={true}
+        hideExtraDays
         disableAllTouchEventsForDisabledDays={true}
         theme={calendarTheme}
         onDayPress={(day) => {
@@ -67,18 +83,19 @@ export default ({setDateRange, dateRange}) => {
 const styles = StyleSheet.create({
   Calendar: {
     borderRadius: 18,
+    height: 380,
   },
   container: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    marginHorizontal: 10,
+    marginVertical: 20,
     justifyContent: 'center',
   },
 });
 
 const calendarTheme = {
-  backgroundColor: '#f6f6f6',
-  calendarBackground: '#f6f6f6',
+  backgroundColor: '#fefefe',
+  calendarBackground: '#fefefe',
   monthTextColor: '#0062FF',
   textMonthFontSize: 18,
   'stylesheet.calendar.header': {
