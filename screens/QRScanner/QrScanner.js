@@ -1,12 +1,18 @@
-import React from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Dimensions, Text} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import AsyncStorage from '@react-native-community/async-storage';
 import Marker from './CustomMarker';
+import Overlay from './Overlays';
 
 export default ({navigation}) => {
+  const [currentCamera, switchCamera] = useState('back');
   const onSuccess = (e) => {
     console.log(e);
+  };
+
+  const changeCamera = () => {
+    if (currentCamera === 'back') switchCamera('front');
+    else switchCamera('back');
   };
 
   return (
@@ -15,10 +21,13 @@ export default ({navigation}) => {
         showMarker={true}
         onRead={onSuccess}
         fadeIn={true}
-        customMarker={Marker}
+        customMarker={<Marker />}
         cameraStyle={styles.cameraContainer}
         topViewStyle={styles.zeroContainer}
-        bottomViewStyle={styles.zeroContainer}
+        bottomContent={
+          <Overlay currentCamera={currentCamera} changeCamera={changeCamera} />
+        }
+        cameraType={currentCamera}
       />
     </View>
   );
@@ -32,7 +41,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   zeroContainer: {
-    height: 0,
     flex: 0,
   },
   cameraContainer: {
