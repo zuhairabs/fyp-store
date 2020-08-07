@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, StatusBar, Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-community/async-storage';
 import StatusBarWhite from '../../components/UXComponents/StatusBar';
 import DefaultCalendar from './Calendar';
 import BookingList from './BookingList';

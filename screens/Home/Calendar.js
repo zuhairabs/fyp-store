@@ -37,9 +37,18 @@ const MarkedDayProps = {
 
 const getMarkedDays = () => {
   let res = {};
-  const today = new Date().toISOString().split('T')[0];
+  var d = new Date();
+  d.setTime(d.getTime() - d.getTimezoneOffset() * 60 * 1000);
+  const today = d.toISOString().split('T')[0];
   res[today] = MarkedDayProps;
   return res;
+};
+
+const getDayDisplay = (dateRange) => {
+  const start = dateRange[0].getUTCDate();
+  const end = dateRange[1].getUTCDate();
+  if (start === end) return start;
+  else return `${start} - ${end}`;
 };
 
 export default ({setDateRange, dateRange}) => {
@@ -67,7 +76,7 @@ export default ({setDateRange, dateRange}) => {
         current={new Date()}
         minDate={new Date().addDays(-2)}
         maxDate={new Date().addDays(31)}
-        monthFormat={'MMMM yyyy'}
+        monthFormat={`${getDayDisplay(dateRange)} MMMM yyyy`}
         hideExtraDays
         disableAllTouchEventsForDisabledDays={true}
         theme={calendarTheme}
@@ -94,8 +103,8 @@ const styles = StyleSheet.create({
 });
 
 const calendarTheme = {
-  backgroundColor: '#fefefe',
-  calendarBackground: '#fefefe',
+  backgroundColor: '#f1f1f1',
+  calendarBackground: '#f1f1f1',
   monthTextColor: '#0062FF',
   textMonthFontSize: 18,
   'stylesheet.calendar.header': {
