@@ -1,6 +1,7 @@
 import React, {createContext, useReducer, useMemo} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 export const GlobalContext = createContext();
+import {URI} from '../api/constants';
 
 export const GlobalContextProvider = (props) => {
   const [state, dispatch] = useReducer(
@@ -59,10 +60,7 @@ export const GlobalContextProvider = (props) => {
           };
 
           try {
-            fetch(
-              'https://shopout.herokuapp.com/store/login',
-              requestOptions,
-            ).then((response) => {
+            fetch(`${URI}/store/login`, requestOptions).then((response) => {
               if (response.status === 200) {
                 response.json().then(async (data) => {
                   await AsyncStorage.setItem('jwt', data.token.toString());
@@ -81,9 +79,12 @@ export const GlobalContextProvider = (props) => {
                 if (response.status === 500)
                   resolve([false, 'Internal Server Error']);
                 else if (response.status === 404) {
-                  resolve([false, 'Invalid phone number or password']);
+                  resolve([false, 'Invalid login credentials']);
                 } else {
-                  resolve([false, 'Server error please try again later']);
+                  resolve([
+                    false,
+                    'Something went wrong please try again later',
+                  ]);
                 }
               }
             });

@@ -5,6 +5,7 @@ import StatusBarWhite from '../../components/UXComponents/StatusBar';
 import DefaultCalendar from './Calendar';
 import BookingList from './BookingList';
 import {GlobalContext} from '../../providers/GlobalContext';
+import {Post} from '../../api/http';
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
@@ -83,32 +84,16 @@ export default () => {
   };
 
   const fetchBookings = () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Bearer ' + state.token,
+    const body = JSON.stringify({
+      cred: {
+        phone: state.user.phone,
       },
-      body: JSON.stringify({
-        cred: {
-          phone: state.user.phone,
-        },
-        start: dateRange[0],
-        end: dateRange[1],
-      }),
-    };
-    fetch(
-      'https://shopout.herokuapp.com/store/bookings/range',
-      requestOptions,
-    ).then((res) => {
-      if (res.status === 200)
-        res.json().then((data) => {
-          setBookings(data.bookings);
-          setLoading(false);
-        });
-      else {
-        Alert.alert('Something went wrong ', res.statusText);
-      }
+      start: dateRange[0],
+      end: dateRange[1],
+    });
+    Post('store/bookings/range', body, state.token).then((data) => {
+      setBookings(data.bookings);
+      setLoading(false);
     });
   };
 
