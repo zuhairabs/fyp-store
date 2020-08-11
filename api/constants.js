@@ -1,5 +1,4 @@
-export const URI =
-  'http://shopoutserver-env.eba-3imvir53.ap-south-1.elasticbeanstalk.com';
+export const URI = 'https://api.shopout.co.in';
 
 export const ERROR_MESSAGE = {
   401: 'Unauthorized access',

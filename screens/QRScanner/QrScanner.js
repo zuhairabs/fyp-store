@@ -1,13 +1,34 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions, Text} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {StyleSheet, View, Dimensions, ToastAndroid} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import Marker from './CustomMarker';
+import {Post} from '../../api/http';
+import {GlobalContext} from '../../providers/GlobalContext';
 import Overlay from './Overlays';
+import Marker from './CustomMarker';
 
 export default ({navigation}) => {
+  const {state} = useContext(GlobalContext);
   const [currentCamera, switchCamera] = useState('back');
-  const onSuccess = (e) => {
-    console.log(e);
+
+  const onRead = async (results) => {
+    const data = await JSON.parse(results.data);
+    if (data.bookingId || data._id) {
+      const body = JSON.stringify({
+        booking_id: data.bookingId,
+        cred: {
+          phone: state.user.phone,
+        },
+      });
+      Post('store/scanqr', body, state.token).then(
+        () => {
+          ToastAndroid.show('Booking completed', ToastAndroid.SHORT);
+          navigation.navigate('Home');
+        },
+        (e) => {
+          ToastAndroid.show(e, ToastAndroid.SHORT);
+        },
+      );
+    } else ToastAndroid.show('Invalid QR code', ToastAndroid.SHORT);
   };
 
   const changeCamera = () => {
@@ -19,7 +40,7 @@ export default ({navigation}) => {
     <View style={styles.qr}>
       <QRCodeScanner
         showMarker={true}
-        onRead={onSuccess}
+        onRead={onRead}
         fadeIn={true}
         customMarker={<Marker />}
         cameraStyle={styles.cameraContainer}
