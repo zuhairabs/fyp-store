@@ -5,6 +5,7 @@ import styles from './Styles';
 import DetailsCard from './Container/DetailsCard';
 import QrContainer from './Container/QrContainer';
 import ButtonContainer from './Container/ButtonContainer';
+import PersonCard from '../../components/PersonCard/PersonCard';
 
 export default ({booking}) => {
   // 0 is booking page, 1 is review page
@@ -30,7 +31,7 @@ export default ({booking}) => {
 
   return (
     <View style={styles.contentContainer}>
-      {/* <StoreCard store={booking.store} noBookButton status={booking.status} /> */}
+      <PersonCard booking={booking} />
       <View style={styles.bookingData}>
         <View style={styles.cardContainer}>
           <DetailsCard

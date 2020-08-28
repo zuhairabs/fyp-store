@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+import MaterialCommunityIcon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {navigationRef} from '../../Navigation/Navigation';
 import Cancelled from './svg/cancel.svg';
 import CheckCircle from './svg/check_circle.svg';
@@ -79,9 +80,13 @@ export default ({booking}) => {
             </Text>
             <View style={styles.time}>
               {booking.type === 'virtual' ? (
-                <Icon name="video-outline" size={20} color="#666" />
+                <MaterialCommunityIcon
+                  name="video-outline"
+                  size={20}
+                  color="#666"
+                />
               ) : (
-                <Icon name="walk" size={20} color="#666" />
+                <MaterialCommunityIcon name="walk" size={20} color="#666" />
               )}
               <Text style={styles.timeText}>
                 {start} - {end}
