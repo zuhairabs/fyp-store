@@ -1,8 +1,8 @@
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
-
+import {navigationRef} from '../../Navigation/Navigation';
 import Cancelled from './svg/cancel.svg';
 import CheckCircle from './svg/check_circle.svg';
 import Pending from './svg/pending.svg';
@@ -41,7 +41,11 @@ export default ({booking}) => {
   return (
     <View style={styles.card}>
       <View style={styles.container}>
-        <TouchableWithoutFeedback style={styles.touchableCard}>
+        <TouchableOpacity
+          style={styles.touchableCard}
+          onPress={() => {
+            navigationRef.current?.navigate('Booking', {booking});
+          }}>
           <View style={styles.dateContainer}>
             <Text style={styles.date}>
               {new Date(booking.start).getUTCDate()}
@@ -93,7 +97,7 @@ export default ({booking}) => {
               <Cancelled />
             )}
           </TouchableWithoutFeedback>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       </View>
     </View>
   );

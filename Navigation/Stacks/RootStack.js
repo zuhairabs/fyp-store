@@ -17,6 +17,7 @@ import BackButton from '../../components/UXComponents/BackButton';
 import RightMenuIcons from '../HeaderIcons/Right';
 import Hamburger from '../HeaderIcons/Hamburger';
 import Details from '../../screens/Menu/Details';
+import SingleBooking from '../../screens/Booking/SingleBooking';
 
 const HEADER_OPTIONS = {
   headerShown: true,
@@ -48,6 +49,17 @@ export default () => (
         title: 'Schedule',
         headerLeft: Hamburger,
         headerRight: RightMenuIcons,
+        ...HEADER_OPTIONS,
+      }}
+    />
+    <Stack.Screen
+      name="Booking"
+      component={SingleBooking}
+      options={{
+        title: 'Schedule',
+        headerBackImage: () => {
+          return <BackButton />;
+        },
         ...HEADER_OPTIONS,
       }}
     />
