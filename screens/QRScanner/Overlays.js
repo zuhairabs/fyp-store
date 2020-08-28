@@ -1,9 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import CommunityICon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {navigationRef} from '../../Navigation/Navigation';
 import ShopOutWhite from './svg/ShopOutWhite';
+
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -14,6 +24,14 @@ export default ({currentCamera, changeCamera}) => {
         <Text style={styles.bottomText}>
           Align the QR code within the frame to complete the appointment
         </Text>
+      </View>
+      <View style={styles.bottomView}>
+        <CommunityICon name="qrcode-edit" size={16} color="#FFF" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Type your code here"
+          placeholderTextColor="#FFF"
+        />
       </View>
       <View style={styles.container}>
         <TouchableWithoutFeedback
@@ -54,18 +72,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    // backgroundColor: 'rgba(0,0,0,0.1)',
   },
   iconTouchable: {
     padding: 8,
     alignItems: 'center',
   },
   bottomView: {
-    width: 240,
+    width: 280,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    marginTop: 30,
     padding: 8,
     borderRadius: 6,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bottomText: {color: '#FFF', textAlign: 'center'},
+  textInput: {
+    color: '#FFF',
+    textAlign: 'left',
+    padding: 8,
+  },
 });

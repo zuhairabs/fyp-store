@@ -1,5 +1,11 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, View, Dimensions, ToastAndroid} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  ToastAndroid,
+  KeyboardAvoidingView,
+} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {Post} from '../../api/http';
 import {GlobalContext} from '../../providers/GlobalContext';
@@ -37,7 +43,7 @@ export default ({navigation}) => {
   };
 
   return (
-    <View style={styles.qr}>
+    <KeyboardAvoidingView style={styles.qr}>
       <QRCodeScanner
         showMarker={true}
         onRead={onRead}
@@ -50,7 +56,7 @@ export default ({navigation}) => {
         }
         cameraType={currentCamera}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
