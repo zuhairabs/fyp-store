@@ -1,16 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 
 import styles from './Styles';
 import DetailsCard from './Container/DetailsCard';
-import QrContainer from './Container/QrContainer';
 import ButtonContainer from './Container/ButtonContainer';
 import PersonCard from '../../components/PersonCard/PersonCard';
 
 export default ({booking}) => {
-  // 0 is booking page, 1 is review page
-  const [screen, setScreen] = useState(0);
-
   const formatTimeString = (date) => {
     return new Date(date)
       .toLocaleTimeString('en-US', {
@@ -37,24 +33,18 @@ export default ({booking}) => {
           <DetailsCard
             title="Appointment Time"
             text={getDetailsTime()}
-            icon={booking.type === 'virtual' ? 'videocam' : 'directions-walk'}
+            icon={booking.type === 'virtual' ? 'video-outline' : 'walk'}
           />
           <DetailsCard
             title="Appointment Date"
             text={getDetailsDate()}
-            icon="date-range"
+            icon="calendar"
           />
         </View>
-        {screen === 0 ? (
-          <>
-            <QrContainer booking={booking} />
-            {!booking.review && (
-              <ButtonContainer booking={booking} setScreen={setScreen} />
-            )}
-          </>
-        ) : (
-          <></>
-        )}
+        <View style={styles.qrContainer}>
+          <View style={{height: 200}} />
+        </View>
+        {booking.type === 'virtual' && <ButtonContainer booking={booking} />}
       </View>
     </View>
   );

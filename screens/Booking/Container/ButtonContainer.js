@@ -19,13 +19,6 @@ export const DisabledButton = ({text}) => (
   </TouchableOpacity>
 );
 
-const RegularButton = ({booking, setScreen}) =>
-  booking.status === 'complete' || booking.status === 'missed' ? (
-    <Button text="Rate Store" buttonFunction={() => setScreen(1)} />
-  ) : (
-    <DisabledButton text="Rate Store" />
-  );
-
 const VirtualBookingButton = ({booking}) =>
   booking.status === 'upcoming' ? (
     <Button
@@ -40,12 +33,8 @@ const VirtualBookingButton = ({booking}) =>
     <DisabledButton text="Join Call" />
   );
 
-export default ({booking, setScreen}) => (
+export default ({booking}) => (
   <View style={styles.buttonArea}>
-    {booking.type === 'virtual' ? (
-      <VirtualBookingButton booking={booking} />
-    ) : (
-      <RegularButton booking={booking} setScreen={setScreen} />
-    )}
+    <VirtualBookingButton booking={booking} />
   </View>
 );
