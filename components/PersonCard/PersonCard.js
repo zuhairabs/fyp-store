@@ -4,13 +4,14 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import {COLORS, textStyles} from '../../styles/styles';
 
 export default ({booking}) => {
+  const {user, type, visitors, status} = booking;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {booking.user.avatar ? (
+        {user.avatar ? (
           <Image
             source={{
-              uri: `data:image/gif;base64,${booking.user.avatar}`,
+              uri: `data:image/gif;base64,${user.avatar}`,
             }}
             style={styles.image}
           />
@@ -20,20 +21,20 @@ export default ({booking}) => {
       </View>
       <View style={styles.cardContent}>
         <Text style={styles.heading} numberOfLines={1}>
-          {booking.user.firstName} {booking.user.lastName}
+          {user.firstName} {user.lastName}
         </Text>
-        {booking.type === 'virtual' ? (
+        {type === 'virtual' ? (
           <View style={styles.subheading}>
             <Text style={styles.subheadingText}>Video Appointment</Text>
-            <Text style={styles.subheadingText}>{booking.status}</Text>
+            <Text style={styles.subheadingText}>{status}</Text>
           </View>
         ) : (
           <View style={styles.subheading}>
             <Text style={styles.subheadingText}>Walk-in Appointment</Text>
             <Text style={styles.subheadingText}>
-              {booking.visitors > 1
-                ? `${booking.status} with ${booking.visitors - 1} others`
-                : `${booking.status}`}
+              {visitors > 1
+                ? `${status} with ${visitors - 1} others`
+                : `${status}`}
             </Text>
           </View>
         )}
