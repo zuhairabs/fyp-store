@@ -152,6 +152,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('shopout-store-key.keystore')
+            storePassword 'Welcome@123'
+            keyAlias 'suryansh sugandhi'
+            keyPassword 'Welcome@123'
+        }
     }
     buildTypes {
         debug {
