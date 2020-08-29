@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -17,7 +17,8 @@ import ShopOutWhite from './svg/ShopOutWhite';
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-export default ({currentCamera, changeCamera}) => {
+export default ({currentCamera, changeCamera, completeBooking}) => {
+  const [bookingId, setBookingId] = useState('');
   return (
     <>
       <View style={styles.bottomView}>
@@ -31,6 +32,12 @@ export default ({currentCamera, changeCamera}) => {
           style={styles.textInput}
           placeholder="Type your code here"
           placeholderTextColor="#FFF"
+          onChangeText={(val) => {
+            setBookingId(val);
+          }}
+          onSubmitEditing={() => {
+            completeBooking(bookingId);
+          }}
         />
       </View>
       <View style={styles.container}>

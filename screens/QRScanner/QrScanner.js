@@ -16,25 +16,28 @@ export default ({navigation}) => {
   const {state} = useContext(GlobalContext);
   const [currentCamera, switchCamera] = useState('back');
 
+  const completeBooking = (bookingId) => {
+    const body = JSON.stringify({
+      booking_id: bookingId,
+      cred: {
+        phone: state.user.phone,
+      },
+    });
+    Post('store/scanqr', body, state.token).then(
+      () => {
+        ToastAndroid.show('Booking completed', ToastAndroid.SHORT);
+        navigation.navigate('Home');
+      },
+      (e) => {
+        ToastAndroid.show(e, ToastAndroid.SHORT);
+      },
+    );
+  };
+
   const onRead = async (results) => {
     const data = await JSON.parse(results.data);
-    if (data.bookingId || data._id) {
-      const body = JSON.stringify({
-        booking_id: data.bookingId,
-        cred: {
-          phone: state.user.phone,
-        },
-      });
-      Post('store/scanqr', body, state.token).then(
-        () => {
-          ToastAndroid.show('Booking completed', ToastAndroid.SHORT);
-          navigation.navigate('Home');
-        },
-        (e) => {
-          ToastAndroid.show(e, ToastAndroid.SHORT);
-        },
-      );
-    } else ToastAndroid.show('Invalid QR code', ToastAndroid.SHORT);
+    if (data.bookingId) completeBooking(data.bookingId);
+    else ToastAndroid.show('Invalid QR code', ToastAndroid.SHORT);
   };
 
   const changeCamera = () => {
@@ -52,7 +55,11 @@ export default ({navigation}) => {
         cameraStyle={styles.cameraContainer}
         topViewStyle={styles.zeroContainer}
         bottomContent={
-          <Overlay currentCamera={currentCamera} changeCamera={changeCamera} />
+          <Overlay
+            currentCamera={currentCamera}
+            changeCamera={changeCamera}
+            completeBooking={completeBooking}
+          />
         }
         cameraType={currentCamera}
       />
