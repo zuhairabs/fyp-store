@@ -4,11 +4,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
 } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {GlobalContext} from '../../../providers/GlobalContext';
+import {COLORS, textStyles} from '../../../styles/styles';
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 const getUserFromAsyncStorage = async () =>
   JSON.parse(await AsyncStorage.getItem('user'));
+
+const SafetyElement = ({item}) => (
+  <View style={styles.safetyElement}>
+    <Icon name="check" size={12} color="#4DEB96" />
+    <Text style={styles.safetyElementText}>{item.title}</Text>
+  </View>
+);
 
 export default ({switchTab}) => {
   const {state} = useContext(GlobalContext);
@@ -92,7 +102,15 @@ export default ({switchTab}) => {
       <View style={styles.description}>
         <Text style={styles.subheading}>Safety Parameters</Text>
         <View style={styles.value}>
-          <Text>{storeData.parameters && storeData.parameters[0].title}</Text>
+          <View style={styles.safetyContainer}>
+            {storeData.parameters && (
+              <FlatList
+                data={storeData.parameters}
+                renderItem={({item}) => <SafetyElement item={item} />}
+                numColumns={2}
+              />
+            )}
+          </View>
         </View>
       </View>
       <View style={styles.description}>
@@ -178,6 +196,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: '#6666666F',
+  },
+  safetyContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  safetyElement: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginTop: 10,
+  },
+  safetyElementText: {
+    marginLeft: 5,
+    color: COLORS.SECONDARY,
+    ...textStyles.paragraphSmallBold,
   },
   description: {
     borderBottomWidth: 1,
