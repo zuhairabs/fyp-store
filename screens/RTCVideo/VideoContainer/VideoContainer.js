@@ -94,7 +94,7 @@ export default ({channelName, appId}) => {
         <EndCallButton
           onPressFunction={() => {
             endCall();
-            navigationRef.current.goBack();
+            navigationRef.current?.goBack();
           }}
         />
         <BottomButton

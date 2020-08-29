@@ -72,6 +72,7 @@ export const buttons = StyleSheet.create({
     borderColor: COLORS.PRIMARY,
   },
   roundedPrimaryButton: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
 

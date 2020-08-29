@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-import styles from './Styles';
+import styles, {WINDOW_HEIGHT} from './Styles';
 import DetailsCard from './Container/DetailsCard';
 import ButtonContainer from './Container/ButtonContainer';
 import PersonCard from '../../components/PersonCard/PersonCard';
@@ -42,7 +42,7 @@ export default ({booking}) => {
           />
         </View>
         <View style={styles.qrContainer}>
-          <View style={{height: 200}} />
+          <View style={{height: WINDOW_HEIGHT / 3}} />
         </View>
         {booking.type === 'virtual' && <ButtonContainer booking={booking} />}
       </View>

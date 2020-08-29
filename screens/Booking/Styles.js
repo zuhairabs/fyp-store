@@ -1,6 +1,6 @@
 import {StyleSheet, StatusBar, Platform, Dimensions} from 'react-native';
 import {COLORS} from '../../styles/styles';
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+export const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   screenContainer: {
