@@ -12,6 +12,7 @@ import NotificationsFull from '../../screens/Notifications/NotificationsFull';
 import Profile from '../../screens/Menu/Profile';
 import Support from '../../screens/Misc/Support';
 import QrScanner from '../../screens/QRScanner/QrScanner';
+import RTCVideo from '../../screens/RTCVideo/RTCVideo';
 
 import BackButton from '../../components/UXComponents/BackButton';
 import RightMenuIcons from '../HeaderIcons/Right';
@@ -63,6 +64,7 @@ export default () => (
         ...HEADER_OPTIONS,
       }}
     />
+    <Stack.Screen name="RTCVideo" component={RTCVideo} />
     <Stack.Screen
       name="Profile"
       options={{

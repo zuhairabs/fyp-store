@@ -16,6 +16,7 @@
     "@react-navigation/stack": "^5.6.2",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-agora": "^3.0.1-rc.5",
     "react-native-calendars": "^1.300.0",
     "react-native-camera": "^3.31.0",
     "react-native-gesture-handler": "^1.6.1",
