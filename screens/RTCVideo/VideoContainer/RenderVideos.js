@@ -9,9 +9,6 @@ import {RtcRemoteView, RtcLocalView, VideoRenderMode} from 'react-native-agora';
 import styles from './ContainerStyles';
 import RemoteOverlay from './RemoteOverlay';
 
-const remoteName = 'Nike Palladium';
-const remoteTitle = 'Store Manager';
-
 export const RenderVideos = ({
   joinSucceed = false,
   channelName,
@@ -74,26 +71,28 @@ const RenderRemoteVideos = ({
         showsHorizontalScrollIndicator={false}>
         {peerIds.map((value, index, array) => {
           return (
-            <TouchableWithoutFeedback onPress={() => toggleOverlay()}>
-              <RtcRemoteView.SurfaceView
-                style={styles.remoteVideo}
+            <>
+              <TouchableWithoutFeedback onPress={() => toggleOverlay()}>
+                <RtcRemoteView.SurfaceView
+                  style={styles.remoteVideo}
+                  uid={value}
+                  channelId={channelName}
+                  renderMode={VideoRenderMode.Hidden}
+                />
+              </TouchableWithoutFeedback>
+              <RemoteOverlay
+                time={timeSeconds}
+                overlayFunctions={overlayFunctions}
+                localSettings={localSettings}
+                overlayOpacity={overlayOpacity}
+                toggleOverlay={toggleOverlay}
                 uid={value}
-                channelId={channelName}
-                renderMode={VideoRenderMode.Hidden}
+                channelName={channelName}
               />
-            </TouchableWithoutFeedback>
+            </>
           );
         })}
       </ScrollView>
-      <RemoteOverlay
-        time={timeSeconds}
-        title={remoteTitle}
-        name={remoteName}
-        overlayFunctions={overlayFunctions}
-        localSettings={localSettings}
-        overlayOpacity={overlayOpacity}
-        toggleOverlay={toggleOverlay}
-      />
     </>
   );
 };

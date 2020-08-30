@@ -6,13 +6,10 @@ import styles from './ContainerStyles';
 import {BottomButton, EndCallButton} from './Controls';
 import {RenderVideos} from './RenderVideos';
 
-const generateRandomUid = () => Math.floor(Math.random() * 100);
-
-export default ({channelName, appId}) => {
+export default ({channelName, appId, uid}) => {
   const _engine = RtcEngine.create(appId);
   const [joinSucceed, setJoinSucceed] = useState(false);
   const [peerIds, setPeerIds] = useState([]);
-  const [uid] = useState(generateRandomUid());
   const [localAudio, setLocalAudio] = useState(true);
   const [localVideo, setLocalVideo] = useState(true);
 
@@ -54,9 +51,13 @@ export default ({channelName, appId}) => {
       console.log('UserJoined', {uid, elapsed});
       // check for new user
       if (peerIds.indexOf(uid) === -1) {
-        setPeerIds((prev) => {
-          return [...prev, uid];
-        });
+        // setPeerIds((prev) => {
+        //   return [...prev, uid];
+        // });
+        /* using single id for one to one video call
+        multiple not allowed */
+
+        setPeerIds([uid]);
       }
     });
     (await _engine).addListener('UserOffline', (uid, reason) => {
@@ -94,7 +95,7 @@ export default ({channelName, appId}) => {
         <EndCallButton
           onPressFunction={() => {
             endCall();
-            navigationRef.current?.goBack();
+            navigationRef.current.goBack();
           }}
         />
         <BottomButton

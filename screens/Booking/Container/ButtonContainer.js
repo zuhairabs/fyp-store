@@ -7,12 +7,7 @@ import {navigationRef} from '../../../Navigation/Navigation';
 import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 
 const VideoIcon = () => (
-  <Icon
-    name="video-outline"
-    size={20}
-    color="#FFF"
-    style={{paddingHorizontal: 8}}
-  />
+  <Icon name="video-outline" size={24} color="#FFF" style={{padding: 8}} />
 );
 
 export const Button = ({text, buttonFunction}) => (
