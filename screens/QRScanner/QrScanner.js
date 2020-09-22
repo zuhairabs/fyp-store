@@ -23,7 +23,7 @@ export default ({navigation}) => {
         phone: state.user.phone,
       },
     });
-    Post('store/scanqr', body, state.token).then(
+    Post('book/scanqr', body, state.token).then(
       () => {
         ToastAndroid.show('Booking completed', ToastAndroid.SHORT);
         navigation.navigate('Home');

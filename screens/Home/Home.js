@@ -91,7 +91,7 @@ export default () => {
       start: dateRange[0],
       end: dateRange[1],
     });
-    Post('store/bookings/range', body, state.token).then((data) => {
+    Post('book/bookings/range', body, state.token).then((data) => {
       setBookings(data.bookings);
       setLoading(false);
     });

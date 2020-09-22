@@ -1,31 +1,19 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import {Post} from '../api/http';
 
 export default () => {
   return new Promise(async (resolve, reject) => {
     const token = await AsyncStorage.getItem('jwt');
     const user = JSON.parse(await AsyncStorage.getItem('user'));
     if (token && user) {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: 'Bearer ' + token,
+      const body = JSON.stringify({
+        cred: {
+          phone: user.phone,
         },
-        body: JSON.stringify({
-          cred: {
-            phone: user.phone,
-          },
-        }),
-      };
-      fetch('https://shopout.herokuapp.com/store/verify', requestOptions).then(
-        (res) => {
-          if (res.status === 200) resolve({token, user});
-          else reject(`Token verification returned ${res.status}`);
-        },
-        (e) => {
-          reject(e);
-        },
-      );
+      });
+      Post('auth/verify', body, token)
+        .then(() => resolve({token, user}))
+        .catch((e) => reject(`Token verification returned ${res.status}`));
     } else {
       reject('No user logon');
     }

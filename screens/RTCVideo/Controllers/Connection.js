@@ -1,5 +1,5 @@
 import {Post} from '../../../api/http';
-const registerRoute = 'user/video-rtc/newParticipant';
+const registerRoute = 'rtc-video/register';
 
 export const appId = 'de22f355862e48539cb856e69aa4d557';
 export const generateRandomUid = () => {

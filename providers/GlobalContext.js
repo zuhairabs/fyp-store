@@ -60,7 +60,7 @@ export const GlobalContextProvider = (props) => {
           };
 
           try {
-            fetch(`${URI}/store/login`, requestOptions).then((response) => {
+            fetch(`${URI}/auth/login`, requestOptions).then((response) => {
               if (response.status === 200) {
                 response.json().then(async (data) => {
                   await AsyncStorage.setItem('jwt', data.token.toString());

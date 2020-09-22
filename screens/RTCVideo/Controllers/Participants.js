@@ -1,6 +1,6 @@
 import {Post} from '../../../api/http';
-const allParticipantsUri = 'user/video-rtc/users';
-const singleParticipantUri = 'user/video-rtc/participant/fetch';
+const allParticipantsUri = 'rtc-video/fetch/all';
+const singleParticipantUri = 'rtc-video/fetch/single';
 
 export const getChannelParticipantsInfo = (channelName) =>
   new Promise((resolve, reject) => {
