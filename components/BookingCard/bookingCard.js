@@ -51,7 +51,7 @@ export default ({booking}) => {
             <Text style={styles.date}>
               {new Date(booking.start).getUTCDate()}
             </Text>
-            <Text style={styles.date}>
+            <Text style={styles.date} numberOfLines={1}>
               {monthList[new Date(booking.start).getUTCMonth()]}
             </Text>
           </View>

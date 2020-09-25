@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, StyleSheet, Dimensions, Image, Text} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   TouchableWithoutFeedback,
@@ -8,8 +8,7 @@ import {
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {GlobalContext} from '../../../providers/GlobalContext';
-import {COLORS, textStyles} from '../../../styles/styles';
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+import styles from './Styles';
 const getUserFromAsyncStorage = async () =>
   JSON.parse(await AsyncStorage.getItem('user'));
 
@@ -122,104 +121,3 @@ export default ({switchTab}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  tabNavigation: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  tab: {
-    flex: 1,
-  },
-  tabNavigationObject: {
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#6666666F',
-  },
-  tabNavigationObjectSelected: {
-    borderBottomWidth: 2,
-    borderColor: '#0062FF',
-    alignItems: 'center',
-  },
-  tabNavigationText: {
-    fontSize: 18,
-    color: '#6666666F',
-    borderBottomWidth: 1,
-    borderColor: '#00000000',
-    paddingBottom: 10,
-    paddingHorizontal: 15,
-  },
-  tabNavigationTextSelected: {
-    fontSize: 18,
-    color: '#0062FF',
-    borderBottomWidth: 1,
-    borderColor: '#00000000',
-    paddingBottom: 10,
-    paddingHorizontal: 15,
-  },
-  carousel: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-    height: Math.floor(WINDOW_HEIGHT / 9),
-    marginTop: 20,
-    marginBottom: 30,
-  },
-  carouselImageContainer: {
-    marginHorizontal: 10,
-    borderColor: '#66666666',
-    borderRadius: 6,
-    width: 70,
-    height: 70,
-    flex: 1,
-  },
-  carouselTouchable: {
-    height: '100%',
-  },
-  carouselImage: {
-    width: undefined,
-    height: undefined,
-    flex: 1,
-    borderRadius: 6,
-  },
-  subheading: {
-    fontSize: 14,
-    color: '#6666666F',
-  },
-  value: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#6666666F',
-  },
-  safetyContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-  safetyElement: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    marginTop: 10,
-  },
-  safetyElementText: {
-    marginLeft: 5,
-    color: COLORS.SECONDARY,
-    ...textStyles.paragraphSmallBold,
-  },
-  description: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
-    backgroundColor: '#FFF',
-    paddingBottom: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-});

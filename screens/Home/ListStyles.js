@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, textStyles} from '../../styles/styles';
 
 const styles = StyleSheet.create({
   tabNavigation: {
@@ -7,26 +8,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 20,
     marginHorizontal: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.BACKGROUND,
   },
   tabNavigationObject: {
     alignItems: 'center',
   },
   tabNavigationObjectSelected: {
     borderBottomWidth: 3,
-    borderColor: '#0062FF',
+    borderColor: COLORS.PRIMARY,
     alignItems: 'center',
   },
   tabNavigationText: {
-    fontSize: 16,
-    color: '#6666666F',
+    ...textStyles.paragraphLarge,
+    color: COLORS.SECONDARY_TRANSPARENT,
     paddingBottom: 10,
     textTransform: 'capitalize',
     paddingHorizontal: 20,
   },
   tabNavigationTextSelected: {
+    ...textStyles.paragraphLargeBold,
     fontSize: 16,
-    color: '#0062FF',
+    color: COLORS.PRIMARY,
     paddingBottom: 10,
     textTransform: 'capitalize',
     fontWeight: 'bold',
@@ -52,11 +54,11 @@ const styles = StyleSheet.create({
   },
   subheading: {
     fontWeight: 'bold',
-    fontSize: 12,
+    ...textStyles.paragraphSmall,
   },
   paragraph: {
-    fontSize: 12,
-    color: '#666',
+    ...textStyles.paragraphSmall,
+    color: COLORS.SECONDARY,
     paddingHorizontal: 2,
   },
   cardContainer: {

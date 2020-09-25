@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {textStyles} from '../../styles/styles';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   date: {
-    fontSize: 12,
+    ...textStyles.paragraphMedium,
     color: '#666',
   },
   imageContainer: {
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   header: {
+    ...textStyles.paragraphMediumBold,
     color: '#000',
   },
   time: {
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
   timeText: {
     color: '#666',
     marginLeft: 8,
-    fontSize: 12,
+    ...textStyles.paragraphSmall,
   },
   bookingStatusIcon: {
     flex: 1,

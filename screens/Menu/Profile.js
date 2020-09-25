@@ -14,6 +14,9 @@ import {GlobalContext} from '../../providers/GlobalContext';
 import {StatusBarDark} from '../../components/UXComponents/StatusBar';
 import MenuBackground from '../../components/Backgrounds/MenuBackground';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {COLORS, textStyles} from '../../styles/styles';
+
+const {width, height} = Dimensions.get('window');
 
 const Profile = ({navigation}) => {
   const {authActions, state} = useContext(GlobalContext);
@@ -134,10 +137,10 @@ const Profile = ({navigation}) => {
 const styles = StyleSheet.create({
   screenContainer: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.BACKGROUND,
   },
   container: {
-    height: Dimensions.get('window').height,
+    height,
   },
   contentContainer: {
     paddingHorizontal: 20,
@@ -157,21 +160,20 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    color: '#FFF',
+    color: COLORS.BACKGROUND,
     fontWeight: 'bold',
   },
   number: {
-    color: '#FFF',
+    color: COLORS.BACKGROUND,
     fontWeight: 'bold',
   },
   userPhotoContainer: {
     height: 100,
     width: 100,
     borderRadius: 100 / 2,
-    // elevation: 3,
     padding: 20,
     marginVertical: 20,
-    backgroundColor: '#FFFFFF2F',
+    backgroundColor: COLORS.PRIMARY_TRANSPARENT,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 80 / 2,
-    backgroundColor: '#FFF',
+    backgroundColor: COLORS.BACKGROUND,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     justifyContent: 'space-around',
     alignItems: 'center',
-    width: Math.floor(Dimensions.get('window').width / 1.5),
+    width: Math.floor(width / 1.5),
   },
   button: {
     marginVertical: 20,
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
   buttonText: {
     flex: 8,
     paddingHorizontal: 20,
-    fontSize: 18,
+    ...textStyles.paragraphLarge,
   },
 });
 

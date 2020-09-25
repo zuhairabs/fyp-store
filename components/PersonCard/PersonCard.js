@@ -16,7 +16,12 @@ export default ({booking}) => {
             style={styles.image}
           />
         ) : (
-          <Icon name="person" size={60} color="#0062FF" style={styles.image} />
+          <Icon
+            name="person"
+            size={60}
+            color={COLORS.PRIMARY}
+            style={styles.image}
+          />
         )}
       </View>
       <View style={styles.cardContent}>
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
   },
   favouriteIcon: {
     elevation: 5,
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.BACKGROUND,
     padding: 10,
     borderRadius: 40 / 2,
     zIndex: 2,

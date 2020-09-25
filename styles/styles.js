@@ -25,6 +25,7 @@ export const COLORS = {
   RED: '#E50000',
   PINK: '#E64069',
   TRANSPARENT: '#00000000',
+  BACKGROUND: '#fff',
 };
 
 export const SPACING = {

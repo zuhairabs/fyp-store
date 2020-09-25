@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, StyleSheet, StatusBar, Alert} from 'react-native';
+import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import StatusBarWhite from '../../components/UXComponents/StatusBar';
 import DefaultCalendar from './Calendar';

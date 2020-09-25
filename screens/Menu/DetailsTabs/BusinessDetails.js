@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {GlobalContext} from '../../../providers/GlobalContext';
+import styles from './Styles';
 const getUserFromAsyncStorage = async () =>
   JSON.parse(await AsyncStorage.getItem('user'));
 
@@ -38,25 +39,25 @@ export default ({switchTab}) => {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      <View style={styles.businessdescription}>
+      <View style={styles.description}>
         <Text style={styles.subheading}>Store ID</Text>
         <View style={styles.value}>
           <Text>2233894</Text>
         </View>
       </View>
-      <View style={styles.businessdescription}>
+      <View style={styles.description}>
         <Text style={styles.subheading}>Contact Number</Text>
         <View style={styles.value}>
           <Text>+91 {storeData.phone}</Text>
         </View>
       </View>
-      <View style={styles.businessdescription}>
+      <View style={styles.description}>
         <Text style={styles.subheading}>Email</Text>
         <View style={styles.value}>
           <Text>{storeData.business ? storeData.business.email : null}</Text>
         </View>
       </View>
-      <View style={styles.businessdescription}>
+      <View style={styles.description}>
         <Text style={styles.subheading}>Address</Text>
         <View style={styles.value}>
           <Text>
@@ -68,61 +69,3 @@ export default ({switchTab}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  tabNavigation: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 30,
-  },
-  tab: {
-    flex: 1,
-  },
-  tabNavigationObject: {
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#6666666F',
-  },
-  tabNavigationObjectSelected: {
-    borderBottomWidth: 2,
-    borderColor: '#0062FF',
-    alignItems: 'center',
-  },
-  tabNavigationText: {
-    fontSize: 18,
-    color: '#6666666F',
-    borderBottomWidth: 1,
-    borderColor: '#00000000',
-    paddingBottom: 10,
-    paddingHorizontal: 15,
-  },
-  tabNavigationTextSelected: {
-    fontSize: 18,
-    color: '#0062FF',
-    borderBottomWidth: 1,
-    borderColor: '#00000000',
-    paddingBottom: 10,
-    paddingHorizontal: 15,
-  },
-
-  subheading: {
-    fontSize: 14,
-    color: '#6666666F',
-  },
-  value: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#6666666F',
-    paddingRight: 20,
-  },
-  businessdescription: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
-    backgroundColor: '#FFF',
-    paddingBottom: 20,
-    marginBottom: 20,
-  },
-});
