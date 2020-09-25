@@ -37,6 +37,7 @@ export default ({channelName, appId, uid}) => {
 
   const endCall = async () => {
     (await _engine).leaveChannel();
+    (await _engine).destroy();
     setPeerIds([]);
     setJoinSucceed(false);
     console.log('LeaveChannelSuccess', {channelName});

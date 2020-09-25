@@ -21,7 +21,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    width: Dimensions.get('window').width / 1.5,
+    width: Dimensions.get('window').width / 1.2,
     justifyContent: 'center',
     alignItems: 'center',
   },
