@@ -5,6 +5,7 @@ import {
   Dimensions,
   ToastAndroid,
   KeyboardAvoidingView,
+  StatusBar,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {Post} from '../../api/http';
@@ -46,24 +47,27 @@ export default ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.qr}>
-      <QRCodeScanner
-        showMarker={true}
-        onRead={onRead}
-        fadeIn={true}
-        customMarker={<Marker />}
-        cameraStyle={styles.cameraContainer}
-        topViewStyle={styles.zeroContainer}
-        bottomContent={
-          <Overlay
-            currentCamera={currentCamera}
-            changeCamera={changeCamera}
-            completeBooking={completeBooking}
-          />
-        }
-        cameraType={currentCamera}
-      />
-    </KeyboardAvoidingView>
+    <>
+      <StatusBar hidden={true} />
+      <KeyboardAvoidingView style={styles.qr}>
+        <QRCodeScanner
+          showMarker={true}
+          onRead={onRead}
+          fadeIn={true}
+          customMarker={<Marker />}
+          cameraStyle={styles.cameraContainer}
+          topViewStyle={styles.zeroContainer}
+          bottomContent={
+            <Overlay
+              currentCamera={currentCamera}
+              changeCamera={changeCamera}
+              completeBooking={completeBooking}
+            />
+          }
+          cameraType={currentCamera}
+        />
+      </KeyboardAvoidingView>
+    </>
   );
 };
 
