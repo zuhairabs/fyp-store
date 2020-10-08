@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createRef} from 'react';
 import {View} from 'react-native';
 import RtcEngine from 'react-native-agora';
 import {navigationRef} from '../../../Navigation/Navigation';
 import styles from './ContainerStyles';
 import {BottomButton, EndCallButton} from './Controls';
 import {RenderVideos} from './RenderVideos';
+import ChatBox from '../Chat/Chat';
+import RBSheet from 'react-native-raw-bottom-sheet';
+
+export const chatBoxRef = createRef();
 
 export default ({channelName, appId, uid}) => {
   const _engine = RtcEngine.create(appId);
@@ -14,6 +18,8 @@ export default ({channelName, appId, uid}) => {
   const [localVideo, setLocalVideo] = useState(true);
 
   // Video controls
+  const openChatBox = async () => chatBoxRef.current?.open();
+  const closeChatBox = async () => chatBoxRef.current?.close();
   const toggleCameraView = async () => (await _engine).switchCamera();
 
   const toggleLocalVideo = async () => {
@@ -35,6 +41,9 @@ export default ({channelName, appId, uid}) => {
   const startCall = async () =>
     (await _engine).joinChannel(null, channelName, null, uid);
 
+  const getVideoAggregateTime = async () =>
+    (await _engine).getUserInfoByUid(uid);
+
   const endCall = async () => {
     (await _engine).leaveChannel();
     (await _engine).destroy();
@@ -51,15 +60,7 @@ export default ({channelName, appId, uid}) => {
     (await _engine).addListener('UserJoined', (uid, elapsed) => {
       console.log('UserJoined', {uid, elapsed});
       // check for new user
-      if (peerIds.indexOf(uid) === -1) {
-        // setPeerIds((prev) => {
-        //   return [...prev, uid];
-        // });
-        /* using single id for one to one video call
-        multiple not allowed */
-
-        setPeerIds([uid]);
-      }
+      if (peerIds.indexOf(uid) === -1) setPeerIds([uid]);
     });
     (await _engine).addListener('UserOffline', (uid, reason) => {
       console.log('UserOffline', {uid, reason});
@@ -91,8 +92,25 @@ export default ({channelName, appId, uid}) => {
         overlayFunctions={overlayFunctions}
         localSettings={localSettings}
       />
+      <RBSheet
+        closeOnDragDown={true}
+        closeOnPressMask={true}
+        closeOnPressBack={true}
+        dragFromTopOnly={true}
+        animationType="slide"
+        customStyles={{
+          container: styles.bottomSheetContainer,
+          wrapper: styles.bottomSheetWrapper,
+          draggableIcon: styles.bottomSheetDraggableIcon,
+        }}
+        ref={chatBoxRef}>
+        <ChatBox closeChatBox={closeChatBox} channel={channelName} />
+      </RBSheet>
       <View style={styles.buttonHolder}>
-        <BottomButton iconName="textsms" onPressFunction={() => {}} />
+        <BottomButton
+          iconName="textsms"
+          onPressFunction={() => openChatBox()}
+        />
         <EndCallButton
           onPressFunction={() => {
             endCall();
