@@ -166,7 +166,7 @@ const Login = ({navigation}) => {
               <Text
                 style={{color: COLORS.PRIMARY}}
                 onPress={() => {
-                  Linking.openURL('https://www.github.com');
+                  Linking.openURL('https://shopout.co.in/policy.html');
                 }}>
                 {' '}
                 Terms of Use
