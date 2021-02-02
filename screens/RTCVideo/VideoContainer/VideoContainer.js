@@ -7,6 +7,7 @@ import {BottomButton, EndCallButton} from './Controls';
 import {RenderVideos} from './RenderVideos';
 import ChatBox from '../Chat/Chat';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import KeepAwake from 'react-native-keep-awake';
 
 export const chatBoxRef = createRef();
 
@@ -122,6 +123,7 @@ export default ({channelName, appId, uid}) => {
           onPressFunction={() => toggleCameraView()}
         />
       </View>
+      <KeepAwake />
     </View>
   );
 };
