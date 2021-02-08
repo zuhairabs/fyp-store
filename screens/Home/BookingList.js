@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native-gesture-handler';
 import styles from './ListStyles';
-import BookingCard from '../../components/BookingCard/BookingCard';
+import BookingCard from '../../components/BookingCard/bookingCard';
 
 const ListHeader = ({tabData, selectedTab, changeTab}) => (
   <View style={styles.tabNavigation}>

@@ -132,8 +132,8 @@ android {
         applicationId "com.shopout.store"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
@@ -153,10 +153,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('shopout-store-key.keystore')
-            storePassword 'Welcome@123'
-            keyAlias 'suryansh sugandhi'
-            keyPassword 'Welcome@123'
+            // storeFile file('shopout-store.keystore')
+            // storePassword 'Shopout123'
+            // keyAlias 'shopout-store'
+            // keyPassword 'Shopout123'
         }
     }
     buildTypes {
@@ -166,7 +166,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

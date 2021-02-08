@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View} from 'react-native';
 
 import styles, {WINDOW_HEIGHT} from './Styles';
 import DetailsCard from './Container/DetailsCard';
 import ButtonContainer from './Container/ButtonContainer';
 import PersonCard from '../../components/PersonCard/PersonCard';
+import {GlobalContext} from '../../providers/GlobalContext';
 
 export default ({booking}) => {
   const formatTimeString = (date) => {
@@ -24,6 +25,8 @@ export default ({booking}) => {
   };
 
   const getDetailsDate = () => new Date(booking.start).toDateString();
+  
+  const {state} = useContext(GlobalContext);
 
   return (
     <View style={styles.contentContainer}>
@@ -44,7 +47,7 @@ export default ({booking}) => {
         <View style={styles.qrContainer}>
           <View style={{height: WINDOW_HEIGHT / 3}} />
         </View>
-        {booking.type === 'virtual' && <ButtonContainer booking={booking} />}
+        {booking.type === 'virtual' && <ButtonContainer booking={booking} data={state} />}
       </View>
     </View>
   );
