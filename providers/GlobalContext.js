@@ -1,5 +1,6 @@
 import React, {createContext, useReducer, useMemo} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import messaging from '@react-native-firebase/messaging';
 export const GlobalContext = createContext();
 import {URI} from '../api/constants';
 
@@ -26,7 +27,7 @@ export const GlobalContextProvider = (props) => {
             AsyncStorage.removeItem('jwt');
             AsyncStorage.removeItem('user');
           } catch (e) {
-            console.error(error);
+            console.error(e);
           }
           return {
             ...prevState,
@@ -48,56 +49,74 @@ export const GlobalContextProvider = (props) => {
     () => ({
       signIn: async (userData) => {
         return new Promise((resolve) => {
-          const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              cred: {
-                phone: Number(userData.phone),
-                password: userData.password,
-              },
-            }),
-          };
+          messaging()
+            .getToken()
+            .then((firebaseToken) => {
+              console.log('FCM ->', firebaseToken);
+              const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  cred: {
+                    phone: Number(userData.phone),
+                    password: userData.password,
+                    firebaseToken: firebaseToken,
+                  },
+                }),
+              };
 
-          try {
-            fetch(`${URI}/auth/login`, requestOptions).then((response) => {
-              if (response.status === 200) {
-                response.json().then(async (data) => {
-                  await AsyncStorage.setItem('jwt', data.token.toString());
-                  await AsyncStorage.setItem(
-                    'user',
-                    JSON.stringify(data.store),
-                  );
-                  dispatch({
-                    type: 'SIGN_IN',
-                    token: data.token.toString(),
-                    user: data.store,
-                  });
-                  resolve(true);
+              try {
+                fetch(`${URI}/auth/login`, requestOptions).then((response) => {
+                  if (response.status === 200) {
+                    response.json().then(async (data) => {
+                      await AsyncStorage.setItem('jwt', data.token.toString());
+                      await AsyncStorage.setItem(
+                        'user',
+                        JSON.stringify(data.store),
+                      );
+                      dispatch({
+                        type: 'SIGN_IN',
+                        token: data.token.toString(),
+                        user: data.store,
+                      });
+                      resolve(true);
+                    });
+                  } else {
+                    if (response.status === 500)
+                      resolve([false, 'Internal Server Error']);
+                    else if (response.status === 404) {
+                      resolve([false, 'Invalid login credentials']);
+                    } else {
+                      resolve([
+                        false,
+                        'Something went wrong please try again later',
+                      ]);
+                    }
+                  }
                 });
-              } else {
-                if (response.status === 500)
-                  resolve([false, 'Internal Server Error']);
-                else if (response.status === 404) {
-                  resolve([false, 'Invalid login credentials']);
-                } else {
-                  resolve([
-                    false,
-                    'Something went wrong please try again later',
-                  ]);
-                }
+              } catch (e) {
+                resolve([
+                  false,
+                  'Can not login right now, please check your internet connection and try again',
+                ]);
               }
             });
-          } catch (e) {
-            resolve([
-              false,
-              'Can not login right now, please check your internet connection and try again',
-            ]);
-          }
         });
       },
 
-      signOut: () => dispatch({type: 'SIGN_OUT'}),
+      signOut: () => {
+        messaging()
+          .deleteToken()
+          .then(() => {
+            console.log('FCM token deleted');
+            messaging()
+              .registerDeviceForRemoteMessages()
+              .then(() => {
+                console.log('FCM token refreshed');
+                dispatch({type: 'SIGN_OUT'});
+              });
+          });
+      },
     }),
     [],
   );

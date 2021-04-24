@@ -41,8 +41,11 @@ const SCREEN_OPTIONS = {
   cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 };
 
-export default () => (
-  <Stack.Navigator screenOptions={SCREEN_OPTIONS}>
+export default ({initialRouteName}) => (
+  <Stack.Navigator
+    screenOptions={SCREEN_OPTIONS}
+    initialRouteName={initialRouteName}>
+    >
     <Stack.Screen
       name="Home"
       component={Home}
