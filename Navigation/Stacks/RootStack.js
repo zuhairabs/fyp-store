@@ -45,7 +45,6 @@ export default ({initialRouteName}) => (
   <Stack.Navigator
     screenOptions={SCREEN_OPTIONS}
     initialRouteName={initialRouteName}>
-    >
     <Stack.Screen
       name="Home"
       component={Home}
