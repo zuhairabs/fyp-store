@@ -69,6 +69,7 @@ const Login = ({navigation}) => {
         swipeToClose={false}
         backdropPressToClose={false}>
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -85,6 +86,7 @@ const Login = ({navigation}) => {
         style={styles.bottomModal}
         position={'bottom'}>
         <View
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
@@ -101,6 +103,7 @@ const Login = ({navigation}) => {
         <Navbar type="locked" />
         <View
           style={styles.contentContainer}
+          // eslint-disable-next-line react-native/no-inline-styles
           contentContainerStyle={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -156,7 +159,10 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.forgotPassword}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ResetPassword');
+              }}>
               <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>

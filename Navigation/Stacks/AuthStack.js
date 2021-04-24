@@ -6,6 +6,8 @@ import {
 const Stack = createStackNavigator();
 import Splash from '../../screens/Authentication/Splash';
 import Login from '../../screens/Authentication/Login';
+import ResetPassword from './../../screens/Authentication/ResetPassword/ResetPassword';
+import Success from '../../screens/Authentication/ResetPassword/Success';
 
 const SCREEN_OPTIONS = {
   headerShown: false,
@@ -25,6 +27,8 @@ export default ({state}) => {
     return (
       <Stack.Navigator screenOptions={SCREEN_OPTIONS}>
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="Success" component={Success} />
       </Stack.Navigator>
     );
 };
