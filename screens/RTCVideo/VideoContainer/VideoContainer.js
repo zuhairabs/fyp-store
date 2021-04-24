@@ -1,5 +1,5 @@
-import React, {useState, useEffect, createRef} from 'react';
-import {View} from 'react-native';
+import React, {useState, useEffect, createRef, useContext} from 'react';
+import {View, Alert, BackHandler, ToastAndroid} from 'react-native';
 import RtcEngine from 'react-native-agora';
 import {navigationRef} from '../../../Navigation/Navigation';
 import styles from './ContainerStyles';
@@ -8,15 +8,21 @@ import {RenderVideos} from './RenderVideos';
 import ChatBox from '../Chat/Chat';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import KeepAwake from 'react-native-keep-awake';
+import {sendCallDetails} from '../Controllers/Connection';
+import {GlobalContext} from './../../../providers/GlobalContext';
 
 export const chatBoxRef = createRef();
 
 export default ({channelName, appId, uid}) => {
   const _engine = RtcEngine.create(appId);
   const [joinSucceed, setJoinSucceed] = useState(false);
+  const [callended, setCallended] = useState(false);
   const [peerIds, setPeerIds] = useState([]);
   const [localAudio, setLocalAudio] = useState(true);
   const [localVideo, setLocalVideo] = useState(true);
+  const [mutualCallActiveTime, setMutualCallActiveTime] = useState(0);
+
+  const {state} = useContext(GlobalContext);
 
   // Video controls
   const openChatBox = async () => chatBoxRef.current?.open();
@@ -46,11 +52,32 @@ export default ({channelName, appId, uid}) => {
     (await _engine).getUserInfoByUid(uid);
 
   const endCall = async () => {
+    if (mutualCallActiveTime !== 0) {
+      console.log('call duration sent');
+      console.log(mutualCallActiveTime);
+      const cred = {phone: state.user.phone};
+      const token = state.token;
+      await sendCallDetails(channelName, mutualCallActiveTime, cred, token);
+    }
     (await _engine).leaveChannel();
     (await _engine).destroy();
     setPeerIds([]);
     setJoinSucceed(false);
+    await navigationRef.current.goBack();
     console.log('LeaveChannelSuccess', {channelName});
+  };
+
+  const backAction = async () => {
+    await Alert.alert('End ongoing call?', '', [
+      {
+        text: 'End',
+        onPress: () => {
+          endCall();
+        },
+        style: 'cancel',
+      },
+      {text: 'Continue', onPress: () => null},
+    ]);
   };
 
   // RTC listeners
@@ -68,8 +95,24 @@ export default ({channelName, appId, uid}) => {
       setPeerIds((prev) => {
         return prev.filter((id) => id !== uid);
       });
+      if (reason === 0 && !callended) {
+        ToastAndroid.show('Customer ended the call', ToastAndroid.SHORT);
+        setCallended(true);
+      }
+      if (reason === 1) {
+        ToastAndroid.show(
+          'Connectivity issues from customer side',
+          ToastAndroid.SHORT,
+        );
+        console.log('left due to no internet connection');
+      }
     });
-
+    (await _engine).addListener('RemoteVideoStats', (RemoteVideoStats) => {
+      // console.log(RemoteVideoStats.totalActiveTime);
+      setMutualCallActiveTime(RemoteVideoStats.totalActiveTime);
+      // console.log('down we see the state calltime');
+      // console.log(mutualCallActiveTime);
+    });
     (await _engine).addListener(
       'JoinChannelSuccess',
       (channel, uid, elapsed) => {
@@ -80,9 +123,18 @@ export default ({channelName, appId, uid}) => {
   };
 
   useEffect(() => {
+    let isMounted = true;
+    BackHandler.addEventListener('hardwareBackPress', backAction);
     console.log({uid});
-    if (_engine) init();
-  }, []);
+    if (_engine && isMounted) {
+      init();
+    }
+    if (callended) endCall();
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+      isMounted = false;
+    };
+  }, [callended]);
 
   return (
     <View style={styles.max}>
@@ -114,8 +166,7 @@ export default ({channelName, appId, uid}) => {
         />
         <EndCallButton
           onPressFunction={() => {
-            endCall();
-            navigationRef.current.goBack();
+            backAction();
           }}
         />
         <BottomButton
