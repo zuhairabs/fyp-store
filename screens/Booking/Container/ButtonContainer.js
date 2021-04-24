@@ -12,40 +12,44 @@ const VideoIcon = () => (
 );
 
 const dialCall = (booking, data) => {
-	const body = JSON.stringify({
-		user: {
-		 _id: booking.user._id,
-		},
-		cred: {
-			phone: data.user.phone,
-		},
-		channelName: booking.bookingId,
-	});
-	PostBaseRoute('rtc-video/register/dial', body, data.token).then((response) => {
-		console.log(response);
-	});
-	 console.log(body);
-}
+  const body = JSON.stringify({
+    user: {
+      _id: booking.user._id,
+    },
+    cred: {
+      phone: data.user.phone,
+    },
+    channelName: booking.bookingId,
+  });
+  PostBaseRoute('rtc-video/register/dial', body, data.token).then(
+    (response) => {
+      console.log(response);
+    },
+  );
+  console.log(body);
+};
 
 const missedCall = (booking, data) => {
-	const body = JSON.stringify({
-		user: {
-		 _id: booking.user._id,
-		}
-	});
-	PostBaseRoute('rtc-video/register/missedCall', body, data.token).then((response) => {
-		console.log(response);
-	});
-	 console.log(body);
-}
+  const body = JSON.stringify({
+    user: {
+      _id: booking.user._id,
+    },
+  });
+  PostBaseRoute('rtc-video/register/missedCall', body, data.token).then(
+    (response) => {
+      console.log(response);
+    },
+  );
+  console.log(body);
+};
 
 const handleClick = (booking, data) => {
-	dialCall(booking, data);
-	setTimeout(() => missedCall(booking, data), 15000);
-	navigationRef.current?.navigate('RTCVideo', {
-          channelName: booking.bookingId,
-    });
-}
+  dialCall(booking, data);
+  setTimeout(() => missedCall(booking, data), 15000);
+  navigationRef.current?.navigate('RTCVideo', {
+    channelName: booking.bookingId,
+  });
+};
 
 export const Button = ({text, buttonFunction}) => (
   <TouchableOpacity
@@ -64,7 +68,7 @@ export const DisabledButton = ({text}) => (
 );
 
 const VirtualBookingButton = ({booking, data}) =>
-  booking.status === 'upcoming' ? (
+  booking.status === 'upcoming' || booking.status === 'completed' ? (
     <Button
       text="Video Call"
       buttonFunction={() => handleClick(booking, data)}
