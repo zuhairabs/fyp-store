@@ -13,7 +13,7 @@ export default () => {
       });
       Post('auth/verify', body, token)
         .then(() => resolve({token, user}))
-        .catch((e) => reject(`Token verification returned ${res.status}`));
+        .catch((e) => reject(`Token verification returned ${e.status}`));
     } else {
       reject('No user logon');
     }
